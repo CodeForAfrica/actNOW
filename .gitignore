@@ -283,3 +283,10 @@ Temporary Items
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/python,linux,macos,visualstudiocode,django
+
+# Custom ignore
+
+# 12factors .env file(s)
+.env
+
+# End of Custom ignore
