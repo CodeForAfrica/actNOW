@@ -24,13 +24,11 @@ env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
 SECRET_KEY = env.str("ACTNOW_SECRET_KEY")
 
 DEBUG = env.bool("ACTNOW_DEBUG", False)
+
+ENVIRONMENT = "development" if DEBUG else "production"
 
 ALLOWED_HOSTS: List[str] = env.str("ACTNOW_ALLOWED_HOSTS", "").split(",")
 
@@ -81,7 +79,7 @@ WSGI_APPLICATION = "actnow.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {"default": env.dj_db_url("DATABASE_URL")}
+DATABASES = {"default": env.dj_db_url("ACTNOW_DATABASE_URL")}
 
 
 # Password validation
@@ -122,6 +120,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 
 # Default primary key field type
@@ -136,7 +135,8 @@ SENTRY_DSN = env.str("ACTNOW_SENTRY_DSN")
 if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
+        environment=ENVIRONMENT,
+        send_default_pii=True,
         integrations=[DjangoIntegration()],
         traces_sample_rate=1.0,
-        send_default_pii=True,
     )
