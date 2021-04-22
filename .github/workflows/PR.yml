@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Lint and Test
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Cancel previous runs
