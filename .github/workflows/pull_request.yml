@@ -19,8 +19,8 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          make build
           echo "ACTNOW_SECRET_KEY=${{ secrets.ACTNOW_SECRET_KEY }}" >> .env
+          make build
 
       - name: Start app
         run: make run
