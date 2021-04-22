@@ -6,7 +6,7 @@ build:
 	$(COMPOSE_BUILD_ENV) $(COMPOSE) build $(COMPOSE_BUILD_FLAGS)
 
 run:
-	$(COMPOSE) up -d
+	$(COMPOSE_BUILD_ENV) $(COMPOSE) up -d
 
 enter:
 	$(COMPOSE) exec app bash

@@ -67,7 +67,6 @@ EXPOSE 8000
 ### Volumes
 WORKDIR ${APP_DOCKER}
 RUN mkdir -p media staticfiles logs
-# VOLUME ["${APP_DOCKER}/media/", "${APP_DOCKER}/logs/"]
 
 ### Setup app
 COPY ${APP_HOST} ${APP_DOCKER}
@@ -111,7 +110,6 @@ EXPOSE 8000
 ### Volumes
 WORKDIR ${APP_DOCKER}
 RUN mkdir -p media staticfiles logs
-# VOLUME ["${APP_DOCKER}/media/", "${APP_DOCKER}/logs/"]
 
 ### Setup app
 COPY ${APP_HOST} ${APP_DOCKER}

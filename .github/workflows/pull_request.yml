@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI
 
 on:
   pull_request:
@@ -20,10 +20,7 @@ jobs:
       - name: Build the Docker image
         run: |
           echo "ACTNOW_SECRET_KEY=${{ secrets.ACTNOW_SECRET_KEY }}" >> .env
-          make build
-
-      - name: Start app
-        run: make run
+          make run
 
       - name: Lint
         run: make lint
