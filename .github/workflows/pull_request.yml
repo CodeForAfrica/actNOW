@@ -1,0 +1,31 @@
+name: CI/CD
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.4.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Clone the repo
+        uses: actions/checkout@v2
+
+      - name: Build the Docker image
+        run: |
+          make build
+
+      - name: Start app
+        run: make run
+
+      - name: Lint
+        run: make lint
+
+      - name: Stop app
+        run: make stop
