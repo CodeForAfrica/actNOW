@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Lint
+    name: Lint & Test
     runs-on: ubuntu-latest
     steps:
       - name: Cancel previous runs
@@ -22,8 +22,8 @@ jobs:
           echo "ACTNOW_SECRET_KEY=${{ secrets.ACTNOW_SECRET_KEY }}" >> .env
           make run
 
-      - name: Lint
-        run: make lint
+      - name: Test
+        run: make test
 
       - name: Stop app
         run: make stop
