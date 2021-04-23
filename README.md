@@ -6,4 +6,4 @@
 
 A public engagement toolkit that enables a media house or civil society organisation to easily set up channels for engagement.
 
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/CodeForAfrica/actNOW/main.svg?badge_token=36-u204gTfynvj6Tb-xlAA)](https://results.pre-commit.ci/latest/github/CodeForAfrica/actNOW/main?badge_token=36-u204gTfynvj6Tb-xlAA)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/CodeForAfrica/actNOW/main.svg)](https://results.pre-commit.ci/latest/github/CodeForAfrica/actNOW/main)
