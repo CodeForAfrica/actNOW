@@ -82,6 +82,17 @@ WSGI_APPLICATION = "actnow.wsgi.application"
 DATABASES = {"default": env.dj_db_url("ACTNOW_DATABASE_URL")}
 
 
+# Password hashing
+# https://docs.djangoproject.com/en/3.2/ref/settings/#password-hashers
+
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+]
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
