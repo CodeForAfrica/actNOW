@@ -34,12 +34,10 @@ jobs:
           context: .
           push: false
           tags: actnow_app:latest
+          target: python-app-ci
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
-
+  
         # This ugly bit is necessary if you don't want your cache to grow forever
         # till it hits GitHub's limit of 5GB.
         # Temp fix
@@ -50,12 +48,12 @@ jobs:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-      - name: Build the Docker image
+      - name: Run app
         run: |
           echo "ACTNOW_SECRET_KEY=${{ secrets.ACTNOW_SECRET_KEY }}" >> .env
           make run
 
-      - name: Test
+      - name: Test app
         run: make test
 
       - name: Stop app
