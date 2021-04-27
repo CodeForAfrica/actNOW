@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:9.6
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=actnow
+      - POSTGRES_PASSWORD=actnow
+      - POSTGRES_DB=actnow
+    ports:
+      # Allow DB access from outside the container
+      - "54321:5432"
+  app:
+    image: codeforafrica/actnow:latest
+    restart: unless-stopped
+    volumes:
+      - app-staticfiles:/app/staticfiles
+      - ./:/app
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      - ACTNOW_ALLOWED_HOSTS=${ACTNOW_ALLOWED_HOSTS:-*}
+      - ACTNOW_DATABASE_URL=${ACTNOW_DATABASE_URL:-postgresql://actnow:actnow@db:5432/actnow}
+      - ACTNOW_DEBUG=${ACTNOW_DEBUG:-True}
+      - ACTNOW_GUNICORN_LOG_LEVEL=${ACTNOW_GUNICORN_LOG_LEVEL:-info}
+      - ACTNOW_GUNICORN_EXTRA_CONFIG=${ACTNOW_GUNICORN_EXTRA_CONFIG:---reload}
+    stdin_open: true
+    tty: true
+  nginx:
+    image: nginx:1.19
+    restart: unless-stopped
+    volumes:
+      - ./contrib/docker-compose/nginx:/etc/nginx/conf.d
+      - app-staticfiles:/var/www/static
+    ports:
+      - 8000:80
+    depends_on:
+      - app
+
+volumes:
+  db-data:
+  app-staticfiles:
