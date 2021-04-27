@@ -14,6 +14,7 @@ services:
       # Allow DB access from outside the container
       - "54321:5432"
   app:
+    image: CodeForAfrica/actnow:latest
     restart: unless-stopped
     build:
       context: .
