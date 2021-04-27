@@ -53,8 +53,8 @@ jobs:
           echo "ACTNOW_SECRET_KEY=${{ secrets.ACTNOW_SECRET_KEY }}" >> .env
           make run
 
-      - name: Docker sizes
-        run: docker ps -a
+      - name: Docker stats
+        run: docker stats -a
 
       - name: Test app
         run: make test
