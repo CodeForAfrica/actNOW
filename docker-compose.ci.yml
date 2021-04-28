@@ -31,16 +31,6 @@ services:
       - ACTNOW_GUNICORN_EXTRA_CONFIG=${ACTNOW_GUNICORN_EXTRA_CONFIG:---reload}
     stdin_open: true
     tty: true
-  nginx:
-    image: nginx:1.19
-    restart: unless-stopped
-    volumes:
-      - ./contrib/docker-compose/nginx:/etc/nginx/conf.d
-      - app-staticfiles:/var/www/static
-    ports:
-      - 8000:80
-    depends_on:
-      - app
 
 volumes:
   db-data:
