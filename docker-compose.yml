@@ -34,7 +34,7 @@ services:
     stdin_open: true
     tty: true
   nginx:
-    image: nginx:1.19
+    image: nginx:1.19.10-alpine
     restart: unless-stopped
     volumes:
       - ./contrib/docker-compose/nginx:/etc/nginx/conf.d
