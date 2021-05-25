@@ -20,7 +20,6 @@ jobs:
       - name: Build the Docker image
         run: |
           echo "ACTNOW_SECRET_KEY=${{ secrets.ACTNOW_SECRET_KEY }}" >> .env
-          echo "ACTNOW_SENTRY_DSN=${{ secrets.ACTNOW_SENTRY_DSN }}" >> .env
           make run
 
       - name: Test
