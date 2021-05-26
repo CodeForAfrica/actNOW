@@ -71,11 +71,9 @@ RUN mkdir -p media staticfiles logs
 ### Setup app
 COPY ${APP_HOST} ${APP_DOCKER}
 COPY ${APP_HOST}/contrib/docker/*.sh /
-RUN chmod +x /entrypoint.sh && \
-    chmod +x /cmd.sh
+RUN chmod +x /cmd.sh
 
 ### Run app-ci
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/cmd.sh"]
 
 ###############################################################################
@@ -114,9 +112,7 @@ RUN mkdir -p media staticfiles logs
 ### Setup app
 COPY ${APP_HOST} ${APP_DOCKER}
 COPY ${APP_HOST}/contrib/docker/*.sh /
-RUN chmod +x /entrypoint.sh && \
-    chmod +x /cmd.sh
+RUN chmod +x /cmd.sh
 
 ### Run app
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/cmd.sh"]
