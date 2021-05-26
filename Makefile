@@ -1,4 +1,4 @@
-COMPOSE = docker-compose -f docker-compose.ci.yml
+COMPOSE = docker-compose
 COMPOSE_BUILD_ENV = COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1
 COMPOSE_BUILD_FLAGS = --progress=plain
 
