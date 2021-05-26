@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "profiles",
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -95,10 +95,10 @@ PASSWORD_HASHERS = [
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "profiles.backends.ActNowBackend",
+    "accounts.backends.ActNowBackend",
 ]
 
-AUTH_USER_MODEL = "profiles.ActNowUser"
+AUTH_USER_MODEL = "accounts.ActNowUser"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
