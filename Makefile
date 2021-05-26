@@ -8,6 +8,9 @@ build:
 run:
 	$(COMPOSE_BUILD_ENV) $(COMPOSE) up -d
 
+runci:
+	$(COMPOSE_BUILD_ENV) $(COMPOSE) up -d app
+
 enter:
 	$(COMPOSE) exec app bash
 

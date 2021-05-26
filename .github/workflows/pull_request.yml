@@ -53,7 +53,7 @@ jobs:
         run: |
           echo "ACTNOW_SECRET_KEY=${{ secrets.ACTNOW_SECRET_KEY }}" >> .env
           echo "ACTNOW_SENTRY_DSN=${{ secrets.ACTNOW_SENTRY_DSN }}" >> .env
-          make run
+          make runci
 
       - name: Lint app
         run: make lint
