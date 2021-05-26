@@ -13,6 +13,11 @@ services:
     ports:
       # Allow DB access from outside the container
       - "54321:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   app:
     image: codeforafrica/actnow:latest
     restart: unless-stopped
@@ -23,7 +28,8 @@ services:
       - app-staticfiles:/app/staticfiles
       - ./:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - .env
     environment:
@@ -35,7 +41,7 @@ services:
     stdin_open: true
     tty: true
   nginx:
-    image: nginx:1.19
+    image: nginx:1.20.0
     restart: unless-stopped
     volumes:
       - ./contrib/docker-compose/nginx:/etc/nginx/conf.d
