@@ -16,11 +16,7 @@ class ActNowUserAdmin(UserAdmin):
         "is_superuser",
         "is_active",
     )
-    list_filter = (
-        "email",
-        "is_staff",
-        "is_active",
-    )
+
     fieldsets = (
         (None, {"fields": ("email", "username", "password", "groups")}),
         ("Permissions", {"fields": ("is_staff", "is_superuser", "is_active")}),
