@@ -55,11 +55,14 @@ jobs:
           echo "ACTNOW_SENTRY_DSN=${{ secrets.ACTNOW_SENTRY_DSN }}" >> .env
           make run
 
-      - name: Run lint
-        run: isort . && black . && flake8 --exclude venv mypy . --ignore-missing-imports
-
       - name: Test app
         run: make test
+
+      - name: Install dev dependencies
+        run: pip3 install -r requirements-dev.txt
+
+      - name: Run lint
+        run: isort . && black . && flake8 --exclude venv && mypy . --ignore-missing-imports
 
       - name: Stop app
         run: make stop
