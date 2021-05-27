@@ -14,20 +14,8 @@ enter:
 createsuperuser:
 	$(COMPOSE) exec app python manage.py createsuperuser
 
-isort:
-	$(COMPOSE) exec -t app isort .
-
-black:
-	$(COMPOSE) exec -t app black .
-
-flake8:
-	$(COMPOSE) exec -t app flake8 --exclude venv
-
-mypy:
-	$(COMPOSE) exec -t app mypy . --ignore-missing-imports
-
 test:
-	$(COMPOSE) exec -t app python manage.py test
+	$(COMPOSE) exec -T app python manage.py test
 
 stop:
 	$(COMPOSE) down
