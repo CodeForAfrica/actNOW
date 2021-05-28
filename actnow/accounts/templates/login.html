@@ -46,7 +46,7 @@
 <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
   <div class="form-row">
     {{ form.username.errors }}
-    Email or Username {{ form.username }}
+    Email address or Username{{ form.username }}
   </div>
   <div class="form-row">
     {{ form.password.errors }}
