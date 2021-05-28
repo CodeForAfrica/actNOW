@@ -26,7 +26,7 @@ services:
       target: python-app-ci
     volumes:
       - app-staticfiles:/app/staticfiles
-      - ./:/app
+      - ${APP_VOLUME:-app-files}:/app
     depends_on:
       db:
         condition: service_healthy
@@ -54,3 +54,4 @@ services:
 volumes:
   db-data:
   app-staticfiles:
+  app-files:
