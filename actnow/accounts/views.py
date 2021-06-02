@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 
@@ -12,11 +13,9 @@ class RegisterView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save(self.request)
+        token = Token.objects.create(user=user)
 
         return Response(
-            self.get_response_data(user),
+            {"token": token.key},
             status=status.HTTP_201_CREATED,
         )
-
-    def get_response_data(self, user):
-        return {user.email}
