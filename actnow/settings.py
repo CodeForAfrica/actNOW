@@ -45,9 +45,13 @@ INSTALLED_APPS = [
     # Third party apps
     "rest_framework",
     "rest_framework.authtoken",
+    "oauth2_provider",
+    "corsheaders",
     # Local apps
     "actnow.accounts",
 ]
+
+LOGIN_URL = "/admin/login/"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -161,3 +165,7 @@ if SENTRY_DSN:
         integrations=[DjangoIntegration()],
         traces_sample_rate=1.0,
     )
+
+# OAUTH2
+
+CORS_ORIGIN_ALLOW_ALL = True
