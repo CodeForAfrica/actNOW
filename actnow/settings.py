@@ -165,7 +165,3 @@ if SENTRY_DSN:
         integrations=[DjangoIntegration()],
         traces_sample_rate=1.0,
     )
-
-# OAUTH2
-
-CORS_ORIGIN_ALLOW_ALL = True
