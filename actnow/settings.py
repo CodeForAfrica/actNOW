@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "oauth2_provider",
-    "corsheaders",
     # Local apps
     "actnow.accounts",
 ]
