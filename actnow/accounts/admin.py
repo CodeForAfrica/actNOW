@@ -1,6 +1,5 @@
-from django.contrib.admin import AdminSite
-from django.contrib.auth.admin import GroupAdmin, UserAdmin
-from django.contrib.auth.models import Group
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 from .forms import ActNowUserChangeForm, ActNowUserCreationForm
 from .models import ActNowUser
@@ -43,13 +42,6 @@ class ActNowUserAdmin(UserAdmin):
     ordering = ("email",)
 
 
-class ActNowAdminSite(AdminSite):
-    site_header = "ActNow administration"
-    site_title = "ActNow"
-    login_template = "login.html"
-
-
-admin_site = ActNowAdminSite("admin")
-
-admin_site.register(ActNowUser, ActNowUserAdmin)
-admin_site.register(Group, GroupAdmin)
+admin.site.site_header = "ActNow administration"
+admin.site.site_title = "ActNow"
+admin.site.register(ActNowUser, ActNowUserAdmin)
