@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "oauth2_provider",
     # Local apps
     "actnow.accounts",
+    "actnow.profiles",
 ]
 
 LOGIN_URL = "/admin/login/"
