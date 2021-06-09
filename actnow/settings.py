@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "oauth2_provider",
+    "phonenumber_field",
     # Local apps
     "actnow.accounts",
     "actnow.profiles",
@@ -147,7 +148,8 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
-
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -155,6 +157,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Others
 #
+# drf
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+}
 # Sentry
 SENTRY_DSN = env.str("ACTNOW_SENTRY_DSN", "")
 if SENTRY_DSN:
