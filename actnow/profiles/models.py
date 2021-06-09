@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
+from .validators import validate_social_media_link
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
@@ -13,7 +15,9 @@ class UserProfile(models.Model):
     profile_photo = models.FileField(max_length=30)
     location = models.TextField()
     phone_number = PhoneNumberField(blank=True)
-    social_media_link = models.URLField(blank=True, null=True)
+    social_media_link = models.URLField(
+        validators=[validate_social_media_link], blank=True, null=True
+    )
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
