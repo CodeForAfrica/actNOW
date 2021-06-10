@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "oauth2_provider",
+    "phonenumber_field",
     # Local apps
     "actnow.accounts",
+    "actnow.profiles",
 ]
 
 LOGIN_URL = "/admin/login/"
@@ -146,7 +148,8 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
-
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -154,6 +157,26 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Others
 #
+# drf
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+}
+
+if not DEBUG:
+    # Change default file storage AWS S3
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_SIGNATURE_VERSION = env.str("AWS_S3_SIGNATURE_VERSION", "s3v4")
+    AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME")
+    AWS_S3_FILE_OVERWRITE = env.bool("AWS_S3_FILE_OVERWRITE", False)
+    AWS_DEFAULT_ACL = env("AWS_DEFAULT_ACL", None)
+    AWS_S3_VERIFY = env.bool("AWS_S3_VERIFY", True)
+
 # Sentry
 SENTRY_DSN = env.str("ACTNOW_SENTRY_DSN", "")
 if SENTRY_DSN:

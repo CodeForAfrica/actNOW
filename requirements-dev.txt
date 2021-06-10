@@ -1,6 +1,7 @@
 -r requirements-all.txt
 black==21.5b0
 build==0.4.0
+factory-boy==3.2.0
 flake8==3.9.2
 isort==5.8.0
 mypy==0.812
