@@ -5,20 +5,24 @@ from django.utils.translation import gettext_lazy as _
 def validate_social_media_link(link):
     link = link.lower()
     is_twitter = (
-        link.startswith("https://twitter.com")
+        link.startswith("twitter.com")
+        or link.startswith("https://twitter.com")
         or link.startswith("http://twitter.com")
         or link.startswith("https://mobile.twitter.com")
         or link.startswith("http://mobile.twitter.com")
     )
     is_facebook = (
-        link.startswith("https://facebook.com")
+        link.startswith("facebook.com")
+        or link.startswith("https://facebook.com")
         or link.startswith("http://facebook.com")
         or link.startswith("https://mobile.facebook.com")
         or link.startswith("http://mobile.facebook.com")
     )
     is_whatsapp = (
-        link.startswith("https://wa.me")
+        link.startswith("wa.me")
+        or link.startswith("https://wa.me")
         or link.startswith("http://wa.me")
+        or link.startswith("whatsapp.com")
         or link.startswith("https://api.whatsapp.com")
         or link.startswith("http://api.whatsapp.com")
     )
