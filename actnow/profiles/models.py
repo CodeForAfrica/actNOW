@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     bio = models.TextField(
         verbose_name="About me", max_length=255, blank=True, null=True
     )
-    profile_photo = models.FileField(max_length=30)
+    photo = models.FileField(max_length=30)
     location = models.TextField()
     phone_number = PhoneNumberField(blank=True)
     social_media_link = models.URLField(
