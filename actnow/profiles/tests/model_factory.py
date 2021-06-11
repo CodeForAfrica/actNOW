@@ -34,3 +34,5 @@ class OrganisationProfileFactory(factory.django.DjangoModelFactory):
     photo = factory.django.ImageField(width=1024, height=768)
     website = factory.Faker("url")
     social_media_link = factory.Faker("url")
+class AdminUserFactory(UserFactory):
+    is_staff = True

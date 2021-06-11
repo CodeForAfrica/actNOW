@@ -37,7 +37,12 @@ class Migration(migrations.Migration):
                         blank=True, max_length=255, null=True, verbose_name="About me"
                     ),
                 ),
-                ("photo", models.ImageField(max_length=30, upload_to="")),
+                (
+                    "photo",
+                    models.ImageField(
+                        max_length=30, upload_to="", blank=True, null=True
+                    ),
+                ),
                 ("location", models.TextField()),
                 (
                     "phone_number",
