@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from .. import models
-from .model_factory import UserProfileFactory
+from .model_factory import OrganisationProfileFactory, UserProfileFactory
 
 
 class UserProfileTest(TestCase):
@@ -21,3 +21,15 @@ class UserProfileTest(TestCase):
             social_media_link="https://twitter.com/userprofile"
         )
         self.assertIsNone(valid_user_profile.full_clean())
+
+
+class OrganisationProfileTest(TestCase):
+    def test_create_organisation_profile(self):
+        OrganisationProfileFactory()
+        self.assertEqual(1, models.OrganisationProfile.objects.count())
+
+    def test_organisation_can_not_have_more_than_2_people(self):
+        org = OrganisationProfileFactory()
+        with self.assertRaises(ValidationError):
+            for _ in range(3):
+                org.persons.add(UserProfileFactory())

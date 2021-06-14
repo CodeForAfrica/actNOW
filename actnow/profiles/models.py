@@ -21,3 +21,22 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class OrganisationProfile(models.Model):
+    name = models.CharField(max_length=20)
+    description = models.TextField()
+    email = models.EmailField(
+        verbose_name="email address",
+        max_length=255,
+        unique=True,
+    )
+    photo = models.ImageField(max_length=50)
+    website = models.URLField(blank=True, null=True)
+    social_media_link = models.URLField(
+        validators=[validate_social_media_link], blank=True, null=True
+    )
+    persons = models.ManyToManyField(UserProfile)
+
+    def __str__(self):
+        return self.name
