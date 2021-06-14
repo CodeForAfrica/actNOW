@@ -22,3 +22,15 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
     social_media_link = factory.Faker("url")
     photo = factory.django.ImageField(width=1024, height=768)
     user = factory.SubFactory(UserFactory)
+
+
+class OrganisationProfileFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.OrganisationProfile
+
+    name = factory.Faker("name")
+    description = factory.Faker("text")
+    email = factory.Faker("email")
+    photo = factory.django.ImageField(width=1024, height=768)
+    website = factory.Faker("url")
+    social_media_link = factory.Faker("url")
