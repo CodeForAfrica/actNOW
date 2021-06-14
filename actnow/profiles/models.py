@@ -25,11 +25,13 @@ class UserProfile(models.Model):
 
 class OrganisationProfile(models.Model):
     name = models.CharField(max_length=20)
+    description = models.TextField()
     email = models.EmailField(
         verbose_name="email address",
         max_length=255,
         unique=True,
     )
+    photo = models.ImageField(max_length=50)
     website = models.URLField(blank=True, null=True)
     social_media_link = models.URLField(
         validators=[validate_social_media_link], blank=True, null=True
