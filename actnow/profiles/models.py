@@ -23,18 +23,18 @@ class UserProfile(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-class Organisation(models.Model):
+class OrganisationProfile(models.Model):
     name = models.CharField(max_length=20)
-    website_link = models.URLField(blank=True, null=True)
+    email = models.EmailField(
+        verbose_name="email address",
+        max_length=255,
+        unique=True,
+    )
+    website = models.URLField(blank=True, null=True)
     social_media_link = models.URLField(
         validators=[validate_social_media_link], blank=True, null=True
     )
-    person_1 = models.OneToOneField(
-        UserProfile, on_delete=models.SET_NULL, related_name="person_1", null=True
-    )
-    person_2 = models.OneToOneField(
-        UserProfile, on_delete=models.SET_NULL, related_name="person_2", null=True
-    )
+    persons = models.ManyToManyField(UserProfile)
 
     def __str__(self):
         return self.name
