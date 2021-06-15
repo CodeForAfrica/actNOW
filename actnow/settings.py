@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "actnow.db",
     "actnow.accounts",
     "actnow.profiles",
+    "actnow.petitions",
 ]
 
 LOGIN_URL = "/admin/login/"
