@@ -14,7 +14,7 @@ services:
       # Allow DB access from outside the container
       - "54321:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U actnow"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -29,8 +29,7 @@ services:
       - app-mediafiles:/app/media
       - ${APP_VOLUME:-app-files}:/app
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     env_file:
       - .env
     environment:
@@ -39,8 +38,20 @@ services:
       - ACTNOW_DEBUG=${ACTNOW_DEBUG:-True}
       - ACTNOW_GUNICORN_LOG_LEVEL=${ACTNOW_GUNICORN_LOG_LEVEL:-info}
       - ACTNOW_GUNICORN_EXTRA_CONFIG=${ACTNOW_GUNICORN_EXTRA_CONFIG:---reload}
+      # psql connection parameters (used in wait-for-postgrsql.sh)
+      # see: https://www.postgresql.org/docs/9.6/libpq-envars.html
+      - PGHOST=db
+      - PGUSER=actnow
+      - PGPASSWORD=actnow
+      - PGDATABASE=actnow
     stdin_open: true
     tty: true
+    command:
+      [
+        "./contrib/docker-compose/wait-for-postgres.sh",
+        "db",
+        "/cmd.sh",
+      ]
   nginx:
     image: nginx:1.20.0
     restart: unless-stopped
