@@ -3,7 +3,6 @@ on:
   push:
     branches: [main]
 env:
-  DOKKU_APP_NAME: "actnow"
   DOKKU_REMOTE_BRANCH: "master"
   DOKKU_REMOTE_URL: "ssh://dokku@dokku-1.dev.codeforafrica.org/actnow"
   GIT_PUSH_FLAGS: "--force"
