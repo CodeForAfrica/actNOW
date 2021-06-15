@@ -58,7 +58,8 @@ ENV PATH=/root/.local/bin:$PATH
 #### Python (copy from python-builder)
 COPY --from=python-builder-ci /root/.local /root/.local
 #### git (for `pre-commit`)
-RUN apt-get install git --no-install-recommends -y \
+#### postgresql-client (for `psql`)
+RUN apt-get install git postgresql-client --no-install-recommends -y \
     && apt-get clean
 
 # Expose server port
