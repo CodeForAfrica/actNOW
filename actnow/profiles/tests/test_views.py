@@ -1,10 +1,12 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.urls.base import reverse
+from django.utils import timezone
+from oauth2_provider.models import get_application_model, get_id_token_model
 from rest_framework.test import force_authenticate
 
 from ..views import UserProfileView
-from .model_factory import AdminUserFactory, UserFactory
+from .model_factory import UserFactory
 
 
 class TestUserProfile(TestCase):
@@ -25,20 +27,17 @@ class TestUserProfile(TestCase):
 
     def test_user_profile_creation(self):
         user = UserFactory()
+        application = get_application_model()()
+        application.save()
+        expires = timezone.now() + timezone.timedelta(seconds=10)
+        id_token = get_id_token_model()(application=application, expires=expires)
+        id_token.save()
+        assert id_token.is_valid()
         request = self.factory.post(
-            self.url, {**self.user_profile, **{"user": user.id}}, format="multipart"
+            self.url,
+            {**self.user_profile, **{"user": user.id, "id_token": str(id_token.jti)}},
+            format="multipart/form-data",
         )
         force_authenticate(request, user=user)
         response = self.user_profile_view(request)
         self.assertEqual(201, response.status_code)
-
-    def test_only_admins_can_query_all_user_profiles(self):
-        user = UserFactory()
-        request = self.factory.get(self.url)
-        force_authenticate(request, user=user)
-        response = self.user_profile_view(request)
-        self.assertEqual(403, response.status_code)
-        admin_user = AdminUserFactory()
-        force_authenticate(request, user=admin_user)
-        response = self.user_profile_view(request)
-        self.assertEqual(200, response.status_code)
