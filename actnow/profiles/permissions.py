@@ -1,4 +1,4 @@
-from oauth2_provider.models import get_application_model
+from oauth2_provider.models import get_id_token_model
 from rest_framework.permissions import BasePermission
 
 
@@ -12,5 +12,8 @@ class ActNowCreatePermission(BasePermission):
 
 class AllowOnlyApplicationToRegisterNewUser(BasePermission):
     def has_permission(self, request, view):
-        app_client_id = request.data.get("app_client_id")
-        return get_application_model().objects.filter(client_id=app_client_id).exists()
+        application_id_token = request.data.get("id_token")
+        id_token = get_id_token_model().objects.filter(jti__iexact=application_id_token)
+        if not id_token.exists():
+            return False
+        return id_token.first().is_valid()
