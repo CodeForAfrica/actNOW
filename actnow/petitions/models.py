@@ -1,8 +1,9 @@
- 
-from django.db import models
+
 from django.contrib.auth.models import User
+from django.db import models
 
 from actnow.db.models import TimestampedModelMixin
+
 
 class Petition(TimestampedModelMixin):
     title = models.CharField(_("title"), max_length=255)
