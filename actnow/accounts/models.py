@@ -3,6 +3,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -34,21 +35,49 @@ class ActNowUserManager(BaseUserManager):
 
 
 class ActNowUser(AbstractBaseUser, PermissionsMixin):
-    class Meta:
-        verbose_name_plural = "ActNowUserAccounts"
+
+    username_validator = UnicodeUsernameValidator()
 
     email = models.EmailField(
-        verbose_name="email address",
+        _("email address"),
         max_length=255,
         unique=True,
     )
     username = models.CharField(
-        verbose_name="username", max_length=255, unique=True, blank=True, null=True
+        _("username"),
+        max_length=150,
+        unique=True,
+        blank=True,
+        null=True,
+        help_text=_(
+            "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+        ),
+        validators=[username_validator],
+        error_messages={
+            "unique": _("A user with that username already exists."),
+        },
     )
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(default=timezone.now)
-
-    USERNAME_FIELD = "email"
+    is_staff = models.BooleanField(
+        _("staff status"),
+        default=False,
+        help_text=_("Designates whether the user can log into this admin site."),
+    )
+    is_active = models.BooleanField(
+        _("active"),
+        default=True,
+        help_text=_(
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
+        ),
+    )
+    date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
     objects = ActNowUserManager()
+
+    EMAIL_FIELD = "email"
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
+
+    class Meta:
+        verbose_name = _("user")
+        verbose_name_plural = _("users")
