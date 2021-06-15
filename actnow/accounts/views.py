@@ -6,11 +6,13 @@ from rest_framework.response import Response
 
 from actnow.accounts.serializers import UserRegistrationSerializer
 
+from .permissions import AllowAppicationsOnly
 from .utils import email_address_exists, username_exists
 
 
 class UserRegistrationView(CreateAPIView):
     serializer_class = UserRegistrationSerializer
+    permission_classes = [AllowAppicationsOnly]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
