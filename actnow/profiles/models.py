@@ -3,10 +3,12 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
+from actnow.db.models import TimestampedModelMixin
+
 from .validators import validate_social_media_link
 
 
-class UserProfile(models.Model):
+class UserProfile(TimestampedModelMixin):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     first_name = models.CharField(_("first name"), max_length=255)
     last_name = models.CharField(_("last name"), max_length=255)
@@ -22,7 +24,7 @@ class UserProfile(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-class OrganisationProfile(models.Model):
+class OrganisationProfile(TimestampedModelMixin):
     name = models.CharField(_("name"), max_length=255)
     description = models.TextField(_("description"), max_length=255, blank=True)
     email = models.EmailField(_("email address"), unique=True)

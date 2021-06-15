@@ -8,6 +8,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from actnow.db.models import TimestampedModelMixin
+
 
 class ActNowUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -33,7 +35,7 @@ class ActNowUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class ActNowUser(AbstractBaseUser, PermissionsMixin):
+class ActNowUser(AbstractBaseUser, PermissionsMixin, TimestampedModelMixin):
 
     username_validator = UnicodeUsernameValidator()
 
