@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "oauth2_provider",
     "phonenumber_field",
     # Local apps
+    "actnow.db",
     "actnow.accounts",
     "actnow.profiles",
 ]
