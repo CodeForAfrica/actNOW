@@ -9,6 +9,11 @@ jobs:
     name: Build, Lint & Test
     runs-on: ubuntu-latest
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.0
+        with:
+          access_token: ${{ github.token }}
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -47,7 +52,7 @@ jobs:
         run: |
           echo "ACTNOW_SECRET_KEY=${{ secrets.ACTNOW_SECRET_KEY }}" >> .env
           echo "ACTNOW_SENTRY_DSN=${{ secrets.ACTNOW_SENTRY_DSN }}" >> .env
-          make run
+          make runci
 
       - name: Run Lint
         run: make lint
