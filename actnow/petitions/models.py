@@ -23,7 +23,7 @@ class Petition(TimestampedModelMixin):
         _("problem to be addressed"),
     )
     number_of_signature_required = models.IntegerField(
-        _("number of signature required")
+        _("number of signatures required")
     )
     image = models.ImageField(
         _("image"),
@@ -46,7 +46,6 @@ class PetitionSignature(TimestampedModelMixin):
     signator = models.ForeignKey(
         ActNowUser,
         on_delete=models.CASCADE,
-        verbose_name="user who signed the petition",
     )
     comment = models.TextField(
         _("comment"),
@@ -54,10 +53,9 @@ class PetitionSignature(TimestampedModelMixin):
     )
 
     def __str__(self):
-        return "%s signed by %s on %s" % (
+        return "%s signed by %s" % (
             self.petition,
             self.signator,
-            str(self.created_at),
         )
 
     class Meta:
