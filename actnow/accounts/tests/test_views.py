@@ -20,21 +20,27 @@ class TestUserRegistrationView(TestCase):
             "username": "TestUser",
             "email": "testuser@mail.com",
             "password": "RandomPassword#2323#",
-            "application_token": str(self.id_token.jti),
         }
+        self.HTTP_AUTHORIZATION = f"Token {str(self.id_token.jti)}"
         self.url = reverse("accounts-user_registration")
 
     def test_user_registration(self):
         self.assertEqual(0, User.objects.count())
-        response = self.client.post(self.url, self.user_data)
+        response = self.client.post(
+            self.url, self.user_data, HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
+        )
         self.assertEqual(201, response.status_code)
         self.assertEqual(1, User.objects.count())
 
     def test_existing_email_returns_error(self):
-        self.client.post(self.url, self.user_data)
+        self.client.post(
+            self.url, self.user_data, HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
+        )
         self.assertEqual(1, User.objects.count())
         self.user_data["username"] = "tester2"
-        response = self.client.post(self.url, self.user_data)
+        response = self.client.post(
+            self.url, self.user_data, HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
+        )
         self.assertIn(
             b"A user is already registered with this e-mail address.", response.content
         )
@@ -42,10 +48,14 @@ class TestUserRegistrationView(TestCase):
         self.assertEqual(1, User.objects.count())
 
     def test_existing_username_returns_error(self):
-        self.client.post(self.url, self.user_data)
+        self.client.post(
+            self.url, self.user_data, HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
+        )
         self.assertEqual(1, User.objects.count())
         self.user_data["email"] = "tester2@mail.com"
-        response = self.client.post(self.url, self.user_data)
+        response = self.client.post(
+            self.url, self.user_data, HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
+        )
         self.assertIn(
             b"A user is already registered with this username", response.content
         )
@@ -54,6 +64,5 @@ class TestUserRegistrationView(TestCase):
 
     def test_only_apps_can_register_a_user(self):
         user_data = {**self.user_data}
-        del user_data["application_token"]
         response = self.client.post(self.url, user_data)
         self.assertEqual(401, response.status_code)
