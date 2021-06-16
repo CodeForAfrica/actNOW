@@ -8,51 +8,57 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('petitions', '0003_alter_petitionsignature_signator'),
+        ("petitions", "0003_alter_petitionsignature_signator"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='petitionsignature',
-            old_name='signator',
-            new_name='signatory',
+            model_name="petitionsignature",
+            old_name="signator",
+            new_name="signatory",
         ),
         migrations.RemoveField(
-            model_name='petition',
-            name='number_of_signature_required',
+            model_name="petition",
+            name="number_of_signature_required",
         ),
         migrations.RemoveField(
-            model_name='petition',
-            name='problem_to_address',
+            model_name="petition",
+            name="problem_to_address",
         ),
         migrations.AddField(
-            model_name='petition',
-            name='number_of_signatures_required',
-            field=models.PositiveIntegerField(default=0, verbose_name='number of signatures required'),
+            model_name="petition",
+            name="number_of_signatures_required",
+            field=models.PositiveIntegerField(
+                default=0, verbose_name="number of signatures required"
+            ),
         ),
         migrations.AddField(
-            model_name='petition',
-            name='problem_statement',
-            field=models.CharField(default=0, max_length=1024, verbose_name='problem statement'),
+            model_name="petition",
+            name="problem_statement",
+            field=models.CharField(
+                default=0, max_length=1024, verbose_name="problem statement"
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='petition',
-            name='description',
-            field=models.CharField(blank=True, max_length=1024, verbose_name='details of petition'),
+            model_name="petition",
+            name="description",
+            field=models.CharField(
+                blank=True, max_length=1024, verbose_name="details of petition"
+            ),
         ),
         migrations.AlterField(
-            model_name='petition',
-            name='video',
-            field=models.FileField(blank=True, upload_to='', verbose_name='video'),
+            model_name="petition",
+            name="video",
+            field=models.FileField(blank=True, upload_to="", verbose_name="video"),
         ),
         migrations.AlterField(
-            model_name='petitionsignature',
-            name='comment',
-            field=models.CharField(blank=True, max_length=1024, verbose_name='comment'),
+            model_name="petitionsignature",
+            name="comment",
+            field=models.CharField(blank=True, max_length=1024, verbose_name="comment"),
         ),
         migrations.AlterUniqueTogether(
-            name='petitionsignature',
-            unique_together={('petition', 'signatory')},
+            name="petitionsignature",
+            unique_together={("petition", "signatory")},
         ),
     ]
