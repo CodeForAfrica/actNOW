@@ -10,12 +10,12 @@ class PetitionView(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class PetitionSignatureView(mixins.CreateModelMixin,
-                        mixins.RetrieveModelMixin,
-                         viewsets.GenericViewSet):
+class PetitionSignatureView(
+    mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
+):
     queryset = PetitionSignature.objects.all()
     serializer_class = PetitionSignatureSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return PetitionSignature.objects.filter(signator = self.request.user) 
+        return PetitionSignature.objects.filter(signator=self.request.user)
