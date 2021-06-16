@@ -30,9 +30,8 @@ class UserRegistrationView(CreateAPIView):
             return Response({"error": response}, status=response_status)
 
         user = serializer.save(self.request)
-        token = Token.objects.create(user=user)
+        Token.objects.create(user=user)
 
         return Response(
-            {"token": token.key},
             status=status.HTTP_201_CREATED,
         )
