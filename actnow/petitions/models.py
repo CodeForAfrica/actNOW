@@ -28,7 +28,8 @@ class Petition(TimestampedModelMixin):
         max_length=1024,
     )
     number_of_signatures_required = models.PositiveIntegerField(
-        _("number of signatures required")
+        _("number of signatures required"),
+        default=0,
     )
     image = models.ImageField(
         _("image"),
