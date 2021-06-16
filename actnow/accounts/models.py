@@ -7,6 +7,7 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from oauth2_provider.models import AbstractApplication
 
 from actnow.db.models import TimestampedModelMixin
 
@@ -81,3 +82,10 @@ class ActNowUser(AbstractBaseUser, PermissionsMixin, TimestampedModelMixin):
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
+
+
+class ActNowApplication(AbstractApplication):
+    user = models.OneToOneField(ActNowUser, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Application"
