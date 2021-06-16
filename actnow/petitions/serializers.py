@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Petition, PetitionSignature
 
 
@@ -20,5 +21,4 @@ class PetitionSerializer(serializers.Serializer):
 class PetitionSignatureSerializer(serializers.Serializer):
     class Meta:
         model = PetitionSignature
-        fields = ['petition', 'signator', 'comment']
-
+        fields = ["petition", "signator", "comment"]
