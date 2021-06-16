@@ -108,7 +108,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = "accounts.ActNowUser"
-OAUTH2_PROVIDER_APPLICATION_MODEL = "accounts.ActNowApplication"
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -165,6 +164,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ],
 }
+OAUTH2_PROVIDER_APPLICATION_MODEL = "accounts.ActNowApplication"
 
 if not DEBUG:
     # Change default file storage AWS S3

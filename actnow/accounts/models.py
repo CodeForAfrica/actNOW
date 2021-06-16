@@ -85,9 +85,7 @@ class ActNowUser(AbstractBaseUser, PermissionsMixin, TimestampedModelMixin):
 
 
 class ActNowApplication(AbstractApplication):
-    user = models.OneToOneField(
-        ActNowUser, null=False, blank=False, on_delete=models.CASCADE
-    )
+    user = models.OneToOneField(ActNowUser, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Application"
