@@ -57,5 +57,5 @@ jobs:
         with:
           branch: ${{ env.DOKKU_REMOTE_BRANCH }}
           git_push_flags: ${{ env.GIT_PUSH_FLAGS }}
-          git_remote_url: ${{ env.DOKKU_REMOTE_url }}
+          git_remote_url: ${{ env.DOKKU_REMOTE_URL }}
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
