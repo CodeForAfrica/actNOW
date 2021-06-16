@@ -10,7 +10,11 @@ class Petition(TimestampedModelMixin):
         _("title"),
         max_length=255,
     )
-    description = models.TextField(_("details of petition"), blank=True)
+    description = models.CharField(
+        _("details of petition"),
+        max_length=1024,
+        blank=True,
+    )
     owner = models.ForeignKey(
         ActNowUser,
         on_delete=models.CASCADE,
@@ -19,10 +23,11 @@ class Petition(TimestampedModelMixin):
         _("recipients"),
         max_length=255,
     )
-    problem_to_address = models.TextField(
-        _("problem to be addressed"),
+    problem_statement = models.CharField(
+        _("problem statement"),
+        max_length=1024,
     )
-    number_of_signature_required = models.IntegerField(
+    number_of_signatures_required = models.PositiveIntegerField(
         _("number of signatures required")
     )
     image = models.ImageField(
@@ -30,7 +35,7 @@ class Petition(TimestampedModelMixin):
         blank=True,
     )
     video = models.FileField(
-        _("vide"),
+        _("video"),
         blank=True,
     )
 
@@ -43,20 +48,21 @@ class PetitionSignature(TimestampedModelMixin):
         Petition,
         on_delete=models.CASCADE,
     )
-    signator = models.ForeignKey(
+    signatory = models.ForeignKey(
         ActNowUser,
         on_delete=models.CASCADE,
     )
-    comment = models.TextField(
+    comment = models.CharField(
         _("comment"),
+        max_length=1024,
         blank=True,
     )
 
     def __str__(self):
         return "%s signed by %s" % (
             self.petition,
-            self.signator,
+            self.signatory,
         )
 
     class Meta:
-        unique_together = ("petition", "signator")
+        unique_together = ("petition", "signatory")
