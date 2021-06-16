@@ -71,8 +71,9 @@ RUN mkdir -p media staticfiles logs
 
 ### Setup app
 COPY ${APP_HOST} ${APP_DOCKER}
-COPY ${APP_HOST}/contrib/docker/*.sh /
-RUN chmod +x /cmd.sh
+COPY ${APP_HOST}/contrib/docker/cmd.sh ${APP_HOST}/contrib/docker-compose/wait-for-postgres.sh /
+RUN chmod +x /cmd.sh \
+    && chmod +x /wait-for-postgres.sh
 
 ### Run app-ci
 CMD ["/cmd.sh"]

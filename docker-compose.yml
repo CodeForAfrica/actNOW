@@ -46,6 +46,8 @@ services:
       - PGDATABASE=actnow
     stdin_open: true
     tty: true
+    command: ["/wait-for-postgres.sh", "db", "/cmd.sh"]
+
   nginx:
     image: nginx:1.20.0
     restart: unless-stopped
