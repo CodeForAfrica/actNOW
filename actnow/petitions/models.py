@@ -17,7 +17,8 @@ class Petition(TimestampedModelMixin):
     )
     owner = models.ForeignKey(
         ActNowUser,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
     )
     recipients = models.CharField(
         _("recipients"),
@@ -51,7 +52,8 @@ class PetitionSignature(TimestampedModelMixin):
     )
     signatory = models.ForeignKey(
         ActNowUser,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
     )
     comment = models.CharField(
         _("comment"),
