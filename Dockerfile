@@ -58,7 +58,8 @@ ENV PATH=/root/.local/bin:$PATH
 #### Python (copy from python-builder)
 COPY --from=python-builder-ci /root/.local /root/.local
 #### git (for `pre-commit`)
-RUN apt-get install git --no-install-recommends -y \
+#### postgresql-client (for `psql`)
+RUN apt-get install git postgresql-client --no-install-recommends -y \
     && apt-get clean
 
 # Expose server port
@@ -70,8 +71,9 @@ RUN mkdir -p media staticfiles logs
 
 ### Setup app
 COPY ${APP_HOST} ${APP_DOCKER}
-COPY ${APP_HOST}/contrib/docker/*.sh /
-RUN chmod +x /cmd.sh
+COPY ${APP_HOST}/contrib/docker/cmd.sh ${APP_HOST}/contrib/docker-compose/wait-for-postgres.sh /
+RUN chmod +x /cmd.sh \
+    && chmod +x /wait-for-postgres.sh
 
 ### Run app-ci
 CMD ["/cmd.sh"]

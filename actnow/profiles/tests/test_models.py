@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from .. import models
-from .model_factory import OrganisationProfileFactory, UserProfileFactory
+from .model_factory import OrganisationProfileFactory, UserFactory, UserProfileFactory
 
 
 class UserProfileTest(TestCase):
@@ -32,4 +32,4 @@ class OrganisationProfileTest(TestCase):
         org = OrganisationProfileFactory()
         with self.assertRaises(ValidationError):
             for _ in range(3):
-                org.persons.add(UserProfileFactory())
+                org.persons.add(UserFactory())
