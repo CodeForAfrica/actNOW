@@ -33,7 +33,7 @@ class OrganisationProfile(TimestampedModelMixin):
     social_media_link = models.URLField(
         validators=[validate_social_media_link], blank=True
     )
-    persons = models.ManyToManyField(UserProfile)
+    persons = models.ManyToManyField(get_user_model())
 
     def __str__(self):
         return self.name
