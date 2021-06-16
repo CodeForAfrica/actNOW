@@ -4,9 +4,9 @@ from rest_framework import routers
 from .views import PetitionSignatureView, PetitionView
 
 router = routers.DefaultRouter()
-router.register(r"petitions", PetitionView)
+router.register(r"", PetitionView)
+router.register(r"signatures", PetitionSignatureView)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("signatures/", PetitionSignatureView.as_view(), name="petition-signatures"),
 ]
