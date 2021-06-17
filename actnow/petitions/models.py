@@ -9,7 +9,6 @@ class Petition(TimestampedModelMixin):
     title = models.CharField(
         _("title"),
         max_length=255,
-        unique=True,
     )
     description = models.TextField(
         _("details of petition"),
