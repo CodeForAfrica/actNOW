@@ -10,7 +10,7 @@ class Petition(TimestampedModelMixin):
         _("title"),
         max_length=255,
     )
-    description = models.CharField(
+    description = models.TextField(
         _("details of petition"),
         max_length=1024,
         blank=True,
@@ -24,7 +24,7 @@ class Petition(TimestampedModelMixin):
         _("recipients"),
         max_length=255,
     )
-    problem_statement = models.CharField(
+    problem_statement = models.TextField(
         _("problem statement"),
         max_length=1024,
     )
@@ -45,19 +45,18 @@ class Petition(TimestampedModelMixin):
         return self.title
 
 
-class PetitionSignature(TimestampedModelMixin):
+class Signature(TimestampedModelMixin):
     petition = models.ForeignKey(
         Petition,
         on_delete=models.CASCADE,
     )
     signatory = models.ForeignKey(
         ActNowUser,
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.CASCADE,
     )
     comment = models.CharField(
         _("comment"),
-        max_length=1024,
+        max_length=255,
         blank=True,
     )
 
