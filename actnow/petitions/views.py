@@ -1,7 +1,9 @@
-from rest_framework import mixins, permissions, viewsets
+from rest_framework import generics, mixins, permissions, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
-from .models import Petition, PetitionSignature
-from .serializers import PetitionSerializer, PetitionSignatureSerializer
+from .models import Petition, Signature
+from .serializers import PetitionSerializer, SignatureSerializer
 
 
 class PetitionView(viewsets.ModelViewSet):
@@ -10,12 +12,12 @@ class PetitionView(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class PetitionSignatureView(
+class SignatureView(
     mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
 ):
-    queryset = PetitionSignature.objects.all()
-    serializer_class = PetitionSignatureSerializer
+    queryset = Signature.objects.all()
+    serializer_class = SignatureSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return PetitionSignature.objects.filter(signator=self.request.user)
+        return Signature.objects.filter(signatory=self.request.user)
