@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from .views import SignatureView, PetitionView
+from .views import PetitionView, SignatureView
 
 router = routers.DefaultRouter()
 router.register(r"", PetitionView)
