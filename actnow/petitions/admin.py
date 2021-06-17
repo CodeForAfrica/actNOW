@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from .models import Petition, PetitionSignature
+from .models import Petition, Signature
 
-admin.site.register(Petition)
-admin.site.register(PetitionSignature)
+admin.site.register([Petition, Signature])
