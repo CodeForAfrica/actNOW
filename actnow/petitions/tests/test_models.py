@@ -1,7 +1,8 @@
-from ..models import Petition
 from django.db.utils import IntegrityError
- 
 from django.test import TestCase
+
+from ..models import Petition
+
 
 class PetitionTest(TestCase):
     def test_create_petition(self):
@@ -28,4 +29,3 @@ class PetitionTest(TestCase):
                 description="Details of Petition",
                 recipients="City Council",
             )
-
