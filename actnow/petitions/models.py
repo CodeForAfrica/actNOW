@@ -9,6 +9,7 @@ class Petition(TimestampedModelMixin):
     title = models.CharField(
         _("title"),
         max_length=255,
+        unique=True,
     )
     description = models.TextField(
         _("details of petition"),
@@ -17,6 +18,7 @@ class Petition(TimestampedModelMixin):
     )
     owner = models.ForeignKey(
         ActNowUser,
+        verbose_name=_("owner"),
         on_delete=models.SET_NULL,
         null=True,
     )
@@ -48,11 +50,14 @@ class Petition(TimestampedModelMixin):
 class Signature(TimestampedModelMixin):
     petition = models.ForeignKey(
         Petition,
+        related_name="signatures",
         on_delete=models.CASCADE,
+        verbose_name=_("petition"),
     )
     signatory = models.ForeignKey(
         ActNowUser,
         on_delete=models.CASCADE,
+        verbose_name=_("signatory"),
     )
     comment = models.CharField(
         _("comment"),
