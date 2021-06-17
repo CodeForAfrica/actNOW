@@ -13,7 +13,6 @@ class Petition(TimestampedModelMixin):
     description = models.TextField(
         _("details of petition"),
         max_length=1024,
-        blank=True,
     )
     owner = models.ForeignKey(
         ActNowUser,
