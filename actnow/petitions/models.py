@@ -64,10 +64,7 @@ class Signature(TimestampedModelMixin):
     )
 
     def __str__(self):
-        return "%s signed by %s" % (
-            self.petition,
-            self.signatory,
-        )
+        return f"{self.petition} signed by {self.signatory}" 
 
     class Meta:
         unique_together = ("petition", "signatory")
