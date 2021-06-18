@@ -1,4 +1,3 @@
-from django.db.utils import IntegrityError
 from django.test import TestCase
 
 from ..models import Petition
@@ -14,18 +13,3 @@ class PetitionTest(TestCase):
         )
         self.assertEqual(1, Petition.objects.count())
 
-    def test_petition_is_unique(self):
-        Petition.objects.create(
-            title="Petition B",
-            problem_statement="Petitioning Issue",
-            description="Description",
-            recipients="Member of Parliament",
-        )
-
-        with self.assertRaises(IntegrityError):
-            Petition.objects.create(
-                title="Petition B",
-                problem_statement="Problem Statement",
-                description="Details of Petition",
-                recipients="City Council",
-            )
