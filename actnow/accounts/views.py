@@ -1,33 +1,29 @@
-from django.utils.translation import gettext_lazy as _
-from rest_framework import status
-from rest_framework.generics import CreateAPIView
-from rest_framework.response import Response
+from django.contrib.auth import get_user_model
+from rest_framework import viewsets
 
-from actnow.accounts.serializers import UserRegistrationSerializer
+from actnow.accounts.serializers import UserSerializer
 
-from .permissions import AllowAppicationOwnerOnly
-from .utils import email_address_exists, username_exists
+from .permissions import AllowAppicationOwnerOnly, IsAuthenticated, IsOwnerOrReadOnly
 
 
-class UserRegistrationView(CreateAPIView):
-    serializer_class = UserRegistrationSerializer
-    permission_classes = (AllowAppicationOwnerOnly,)
+class UsersView(viewsets.ModelViewSet):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        if email_address_exists(serializer.data["email"]):
-            response = _("A user is already registered with this e-mail address.")
-            response_status = status.HTTP_400_BAD_REQUEST
-            return Response({"error": response}, status=response_status)
+    def get_permissions(self):
+        if self.action == "create":
+            permission_classes = (AllowAppicationOwnerOnly,)
+        else:
+            permission_classes = (IsOwnerOrReadOnly, IsAuthenticated)
+        return [permission() for permission in permission_classes]
 
-        if username_exists(serializer.data["username"]):
-            response = _("A user is already registered with this username")
-            response_status = status.HTTP_400_BAD_REQUEST
-            return Response({"error": response}, status=response_status)
+    def perform_destroy(self, instance):
+        # Mark the user as in active instead of deleting them from DB
+        instance.is_active = False
+        # Revoke all OAuth tokens
+        for access_token in instance.oauth2_provider_accesstoken.all():
+            access_token.revoke()
 
-        serializer.save(self.request)
-
-        return Response(
-            status=status.HTTP_201_CREATED,
-        )
+        # Delete the DRF auth token
+        instance.auth_token.delete()
+        instance.save()
