@@ -8,7 +8,7 @@ class PetitionTest(TestCase):
 
     def setUp(self):
         self.petition = Petition.objects.create(
-                title="Petition B",
+                title="Petition A",
                 problem_statement="Problem Statement",
                 description="Details of Petition",
                 recipients="City Council",
@@ -19,15 +19,15 @@ class PetitionTest(TestCase):
             username="test",
             password="test2021?"
         )
-        
-    def test_create_petition(self):
-        Petition.objects.create(
+
+    def test_str_petition(self):
+        p = Petition.objects.create(
             title="Petition A",
             problem_statement="Problem Statement",
             description="Details of Petition",
             recipients="City Council",
         )
-        self.assertEqual(2, Petition.objects.count())
+        self.assertEqual(str(p), Petition.objects.count())
 
     def test_create_signature(self):
         Signature.objects.create(
