@@ -12,4 +12,3 @@ class PetitionTest(TestCase):
             recipients="City Council",
         )
         self.assertEqual(1, Petition.objects.count())
-
