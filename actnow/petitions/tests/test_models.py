@@ -27,7 +27,7 @@ class PetitionTest(TestCase):
             description="Details of Petition",
             recipients="City Council",
         )
-        self.assertEqual(str(p), Petition.objects.count())
+        self.assertEqual(str(p), "Petition A")
 
     def test_create_signature(self):
         Signature.objects.create(
