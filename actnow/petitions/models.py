@@ -54,8 +54,9 @@ class Signature(TimestampedModelMixin):
     )
     signatory = models.ForeignKey(
         ActNowUser,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         verbose_name=_("signatory"),
+        null=True,
     )
     comment = models.CharField(
         _("comment"),
