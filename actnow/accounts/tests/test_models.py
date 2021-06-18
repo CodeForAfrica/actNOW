@@ -12,7 +12,7 @@ class ActNowUserTests(TestCase):
             email="root@root.com", password="RandomPassword321"
         )
         self.assertTrue(user.is_active)
-        self.assertFalse(user.is_staff)
+        self.assertTrue(user.is_staff)
         self.assertFalse(user.is_superuser)
 
     def test_create_superuser(self):
