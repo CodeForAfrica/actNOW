@@ -10,7 +10,7 @@ class SignatureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Signature
-        fields = ["created_at", "updated_at", "comment", "signatory", "petition"]
+        fields = "__all__"
 
 
 class PetitionSerializer(serializers.ModelSerializer):
