@@ -8,6 +8,7 @@ class PetitionView(viewsets.ModelViewSet):
     queryset = Petition.objects.all()
     serializer_class = PetitionSerializer
 
+
 class SignatureView(
     mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
 ):
