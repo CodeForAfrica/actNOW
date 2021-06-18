@@ -18,6 +18,9 @@ class ActNowUserManager(BaseUserManager):
             raise ValueError("Users must have an email address")
 
         email = self.normalize_email(email)
+        # Since Users have to login in order to complete OAuth.
+        # They will have no permission to see anything in the admin dashboard.
+        extra_fields.setdefault("is_staff", True)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
