@@ -3,7 +3,7 @@ from rest_framework import viewsets
 
 from actnow.accounts.serializers import UserSerializer
 
-from .permissions import AllowAppicationOwnerOnly, IsAuthenticated, IsOwnerOrReadOnly
+from .permissions import AllowAppicationOwnerOnly, IsNotDeleted, IsOwnerOrReadOnly
 
 
 class UsersView(viewsets.ModelViewSet):
@@ -16,7 +16,7 @@ class UsersView(viewsets.ModelViewSet):
                 AllowAppicationOwnerOnly,
             ]
         else:
-            permission_classes = [IsOwnerOrReadOnly, IsAuthenticated]
+            permission_classes = [IsOwnerOrReadOnly, IsNotDeleted]
         return [permission() for permission in permission_classes]
 
     def perform_destroy(self, instance):
