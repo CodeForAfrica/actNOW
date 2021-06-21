@@ -69,10 +69,12 @@ class ActNowUser(AbstractBaseUser, PermissionsMixin, TimestampedModelMixin):
     is_active = models.BooleanField(
         _("active"),
         default=True,
-        help_text=_(
-            "Designates whether this user should be treated as active. "
-            "Unselect this instead of deleting accounts."
-        ),
+        help_text=_("Designates whether this user should be treated as active. "),
+    )
+    is_deleted = models.BooleanField(
+        _("deleted"),
+        default=False,
+        help_text=_("Designates whether this user should be treated as deleted."),
     )
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 

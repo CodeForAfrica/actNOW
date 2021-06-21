@@ -17,4 +17,4 @@ class IsOwnerOrReadOnly(BasePermission):
 
 class IsAuthenticated(BasePermission):
     def has_permission(self, request, view):
-        return bool(request.user.is_active and request.user.is_authenticated)
+        return bool(not request.user.is_deleted and request.user.is_authenticated)

@@ -12,13 +12,16 @@ class UsersView(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == "create":
-            permission_classes = (AllowAppicationOwnerOnly,)
+            permission_classes = [
+                AllowAppicationOwnerOnly,
+            ]
         else:
-            permission_classes = (IsOwnerOrReadOnly, IsAuthenticated)
+            permission_classes = [IsOwnerOrReadOnly, IsAuthenticated]
         return [permission() for permission in permission_classes]
 
     def perform_destroy(self, instance):
-        # Mark the user as in active instead of deleting them from DB
+        # Mark the user account as deleted instead of deleting it from the DB
+        instance.is_deleted = True
         instance.is_active = False
         # Revoke all OAuth tokens
         for access_token in instance.oauth2_provider_accesstoken.all():
