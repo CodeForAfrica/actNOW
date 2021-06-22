@@ -20,5 +20,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("actnow.accounts.urls")),
     path("petitions/", include("actnow.petitions.urls")),
+    path("profiles/", include("actnow.profiles.urls")),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
 ]
