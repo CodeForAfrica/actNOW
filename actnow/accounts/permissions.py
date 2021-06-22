@@ -11,10 +11,10 @@ class AllowAppicationOwnerOnly(BasePermission):
 class IsOwnerOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
-            return bool(request.user.is_active and request.user.is_authenticated)
+            return request.user.is_authenticated
         return bool(obj.id == request.user.id)
 
 
 class IsNotDeleted(BasePermission):
     def has_permission(self, request, view):
-        return bool(request.user.is_active and not request.user.is_deleted)
+        return bool(request.user.is_authenticated and not request.user.is_deleted)
