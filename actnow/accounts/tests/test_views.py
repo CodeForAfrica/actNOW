@@ -138,3 +138,12 @@ class TestUserRegistrationView(TestCase):
             f"{self.url}{user.id}/", HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
         )
         self.assertEqual(404, response.status_code)
+
+        # ensure once an account is deleted, all tokens are revoked.
+        response = self.client.get(
+            f"{self.url}",
+            HTTP_AUTHORIZATION="Bearer " + str(oauth_access_token.token),
+        )
+        self.assertEqual(401, response.status_code)
+        with self.assertRaises(AccessToken.DoesNotExist):
+            oauth_access_token.refresh_from_db()
