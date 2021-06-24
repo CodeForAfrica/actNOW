@@ -91,7 +91,6 @@ class TestUserRegistrationView(TestCase):
             "username": "new_user_name",
         }
 
-        expires = timezone.now() + timezone.timedelta(seconds=100)
         user = User.objects.get(email="testuser@mail.com")
 
         response = self.client.patch(f"{self.url}{user.id}/", data=update_data)
@@ -99,6 +98,7 @@ class TestUserRegistrationView(TestCase):
         # Create an AccessToken.
         # In real world,
         # this will be generated after the user manually accepts the OAuth prompt.
+        expires = timezone.now() + timezone.timedelta(seconds=100)
         oauth_access_token = AccessToken(token=self.token, expires=expires, user=user)
         oauth_access_token.save()
         self.client.credentials(
@@ -109,3 +109,32 @@ class TestUserRegistrationView(TestCase):
         # check username has been updated
         response = self.client.get(f"{self.url}{user.id}/")
         self.assertEqual(update_data["username"], response.json()["username"])
+
+    def test_only_account_owners_can_delete_their_accounts(self):
+        # Register user
+        self.client.post(
+            self.url, self.user_data, HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
+        )
+        user = User.objects.get(email="testuser@mail.com")
+        # Try deleting account using an admin token
+        response = self.client.delete(
+            f"{self.url}{user.id}/", HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
+        )
+        self.assertEqual(403, response.status_code)
+        # Create an AccessToken.
+        # In real world,
+        # this will be generated after the user manually accepts the OAuth prompt.
+        expires = timezone.now() + timezone.timedelta(seconds=100)
+        oauth_access_token = AccessToken(token=self.token, expires=expires, user=user)
+        oauth_access_token.save()
+        # delete account using OAuth token
+        response = self.client.delete(
+            f"{self.url}{user.id}/",
+            HTTP_AUTHORIZATION="Bearer " + str(oauth_access_token.token),
+        )
+        self.assertEqual(204, response.status_code)
+        # Ensure account has been deleted
+        response = self.client.get(
+            f"{self.url}{user.id}/", HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
+        )
+        self.assertEqual(404, response.status_code)

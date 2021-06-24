@@ -7,8 +7,10 @@ from .permissions import AllowAppicationOwnerOnly, IsNotDeleted, IsOwnerOrReadOn
 
 
 class UsersView(viewsets.ModelViewSet):
-    queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+    def get_queryset(self):
+        return get_user_model().objects.filter(is_deleted=False)
 
     def get_permissions(self):
         if self.action == "create":
