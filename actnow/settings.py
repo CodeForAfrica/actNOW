@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "oauth2_provider",
     "phonenumber_field",
-    "crispy_forms",
     # Local apps
     "actnow.db",
     "actnow.accounts",
@@ -56,7 +55,6 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_URL = "/accounts/login/"
-CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
