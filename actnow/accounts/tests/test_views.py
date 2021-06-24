@@ -1,5 +1,3 @@
-import json
-
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls.base import reverse
@@ -21,8 +19,8 @@ class TestUserRegistrationView(TestCase):
         }
         self.url = reverse("accounts-list")
         user = User.objects.create_superuser(email="test_user@test.org")
-        application = get_application_model()(user=user)
-        application.save()
+        self.application = get_application_model()(user=user)
+        self.application.save()
         self.token = Token.objects.get(user=user.id)
         self.HTTP_AUTHORIZATION = f"Token {self.token}"
 
@@ -89,24 +87,25 @@ class TestUserRegistrationView(TestCase):
         self.client.post(
             self.url, self.user_data, HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
         )
-        update_data = json.dumps(
-            {
-                "username": "new_user_name",
-            }
-        )
-        response = self.client.patch(self.url, update_data, format="json")
-        self.assertEqual(401, response.status_code)
+        update_data = {
+            "username": "new_user_name",
+        }
+
         expires = timezone.now() + timezone.timedelta(seconds=100)
         user = User.objects.get(email="testuser@mail.com")
+
+        response = self.client.patch(f"{self.url}{user.id}/", data=update_data)
+        self.assertEqual(401, response.status_code)
         # Create an AccessToken.
         # In real world,
         # this will be generated after the user manually accepts the OAuth prompt.
         oauth_access_token = AccessToken(token=self.token, expires=expires, user=user)
+        oauth_access_token.save()
         self.client.credentials(
-            HTTP_AUTHORIZATION=f"Bearer {str(oauth_access_token.token)}"
+            HTTP_AUTHORIZATION="Bearer " + str(oauth_access_token.token)
         )
-        response = self.client.patch(
-            self.url,
-            update_data,
-            format="json",
-        )
+        response = self.client.patch(f"{self.url}{user.id}/", data=update_data)
+        self.assertEqual(200, response.status_code)
+        # check username has been updated
+        response = self.client.get(f"{self.url}{user.id}/")
+        self.assertEqual(update_data["username"], response.json()["username"])
