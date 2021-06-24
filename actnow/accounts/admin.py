@@ -27,7 +27,6 @@ class ActNowUserAdmin(UserAdmin):
                     "is_staff",
                     "is_superuser",
                     "is_active",
-                    "is_deleted",
                 )
             },
         ),
@@ -45,7 +44,6 @@ class ActNowUserAdmin(UserAdmin):
                     "is_staff",
                     "is_superuser",
                     "is_active",
-                    "is_deleted",
                 ),
             },
         ),
