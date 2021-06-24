@@ -1,9 +1,15 @@
-from django.urls import path
+from django.urls import include, path
 from rest_framework.authtoken import views
+from rest_framework.routers import DefaultRouter
 
-from .views import UserRegistrationView
+from .views import UsersView
+
+router = DefaultRouter()
+router.register(r"", UsersView, basename="accounts")
 
 urlpatterns = [
-    path("", UserRegistrationView.as_view(), name="accounts-user_registration"),
     path("api-token-auth/", views.obtain_auth_token),
+    path("", include("django.contrib.auth.urls")),
 ]
+
+urlpatterns += router.urls

@@ -15,11 +15,21 @@ class ActNowUserAdmin(UserAdmin):
         "is_staff",
         "is_superuser",
         "is_active",
+        "is_deleted",
     )
 
     fieldsets = (
         (None, {"fields": ("email", "username", "password", "groups")}),
-        ("Permissions", {"fields": ("is_staff", "is_superuser", "is_active")}),
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "is_staff",
+                    "is_superuser",
+                    "is_active",
+                )
+            },
+        ),
     )
     add_fieldsets = (
         (

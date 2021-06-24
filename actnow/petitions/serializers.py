@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from actnow.accounts.serializers import UserRegistrationSerializer
+from actnow.accounts.serializers import UserSerializer
 
 from .models import Petition, Signature
 
 
 class SignatureSerializer(serializers.ModelSerializer):
-    signatory = UserRegistrationSerializer(read_only=True)
+    signatory = UserSerializer(read_only=True)
 
     class Meta:
         model = Signature
@@ -14,7 +14,7 @@ class SignatureSerializer(serializers.ModelSerializer):
 
 
 class PetitionSerializer(serializers.ModelSerializer):
-    owner = UserRegistrationSerializer(read_only=True)
+    owner = UserSerializer(read_only=True)
     signatures = SignatureSerializer(many=True, read_only=True)
 
     class Meta:
