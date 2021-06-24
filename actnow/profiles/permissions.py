@@ -4,5 +4,12 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 class IsOwnerOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
-            return bool(request.user.is_authenticated)
-        return request.user.id in obj.persons.values_list("id", flat=True)
+            return True
+        return bool(obj.user.id == request.user.id)
+
+
+class IsUserProfile(BasePermission):
+    def has_permission(self, request, view):
+        user_id = request.data.get("user", -1)
+        # Prevent a user from creating other users profiles.
+        return int(user_id) == request.user.id
