@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "oauth2_provider",
     "phonenumber_field",
+    "storages",
     # Local apps
     "actnow.db",
     "actnow.accounts",
@@ -109,6 +110,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = "accounts.ActNowUser"
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -151,14 +154,17 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Others
-#
-# drf
+
+# DRF
+# https://www.django-rest-framework.org/#installation
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
@@ -166,7 +172,11 @@ REST_FRAMEWORK = {
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
     ],
 }
-OAUTH2_PROVIDER_APPLICATION_MODEL = "accounts.ActNowApplication"
+
+
+# Django Oauth Toolkit Application model
+# https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/rest-framework.html
+
 OAUTH2_PROVIDER = {
     # this is the list of available scopes
     "SCOPES": {
@@ -175,19 +185,36 @@ OAUTH2_PROVIDER = {
         "groups": "Access to your groups",
     }
 }
-if not DEBUG:
-    # Change default file storage AWS S3
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+
+# Django Oauth Toolkit Application model
+# https://django-oauth-toolkit.readthedocs.io/en/latest/settings.html#application-model
+
+OAUTH2_PROVIDER_APPLICATION_MODEL = "accounts.ActNowApplication"
+
+
+# AWS S3 Storage
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
+
+ACTNOW_USE_S3 = env.bool("ACTNOW_USE_S3", False)
+if ACTNOW_USE_S3:
     AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
     AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME")
     AWS_S3_SIGNATURE_VERSION = env.str("AWS_S3_SIGNATURE_VERSION", "s3v4")
     AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME")
     AWS_S3_FILE_OVERWRITE = env.bool("AWS_S3_FILE_OVERWRITE", False)
+    AWS_LOCATION = env.str("AWS_LOCATION", "static")
     AWS_DEFAULT_ACL = env("AWS_DEFAULT_ACL", None)
     AWS_S3_VERIFY = env.bool("AWS_S3_VERIFY", True)
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
+
+    DEFAULT_FILE_STORAGE = "actnow.storages_backends.MediaS3Boto3Storage"
+
 
 # Sentry
+# https://docs.sentry.io/platforms/python/guides/django/
+
 SENTRY_DSN = env.str("ACTNOW_SENTRY_DSN", "")
 if SENTRY_DSN:
     sentry_sdk.init(
