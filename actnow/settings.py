@@ -28,7 +28,7 @@ SECRET_KEY = env.str("ACTNOW_SECRET_KEY")
 
 DEBUG = env.bool("ACTNOW_DEBUG", False)
 
-ENVIRONMENT = "development" if DEBUG else "production"
+ENVIRONMENT = env.str("DJANGO_ENV", "development")
 
 ALLOWED_HOSTS: List[str] = env.str("ACTNOW_ALLOWED_HOSTS", "").split(",")
 
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "actnow.accounts",
     "actnow.profiles",
     "actnow.petitions",
+    "actnow.site",
 ]
 
 LOGIN_URL = "/accounts/login/"
@@ -223,4 +224,5 @@ if SENTRY_DSN:
         send_default_pii=True,
         integrations=[DjangoIntegration()],
         traces_sample_rate=1.0,
+        debug=DEBUG,
     )

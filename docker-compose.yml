@@ -36,6 +36,7 @@ services:
       - ACTNOW_ALLOWED_HOSTS=${ACTNOW_ALLOWED_HOSTS:-*}
       - ACTNOW_DATABASE_URL=${ACTNOW_DATABASE_URL:-postgresql://actnow:actnow@db:5432/actnow}
       - ACTNOW_DEBUG=${ACTNOW_DEBUG:-True}
+      - DJANGO_ENV=${DJANGO_ENV:-local}
       - ACTNOW_GUNICORN_LOG_LEVEL=${ACTNOW_GUNICORN_LOG_LEVEL:-info}
       - ACTNOW_GUNICORN_EXTRA_CONFIG=${ACTNOW_GUNICORN_EXTRA_CONFIG:---reload}
       # psql connection parameters (used in wait-for-postgrsql.sh)
