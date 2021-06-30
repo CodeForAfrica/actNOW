@@ -22,4 +22,5 @@ urlpatterns = [
     path("petitions/", include("actnow.petitions.urls")),
     path("profiles/", include("actnow.profiles.urls")),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
+    path("", include("actnow.site.urls")),
 ]
