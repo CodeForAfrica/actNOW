@@ -14,30 +14,9 @@ class UserSerializer(serializers.ModelSerializer):
         if not validated_data["username"]:
             del validated_data["username"]
 
-        request_data = self.context["request"].data
+        request_data = self.context["request"].data.copy()
 
-        first_name = request_data.get("first_name", validated_data["username"])
-        last_name = request_data.get("last_name", "")
-        bio = request_data.get("bio", "")
-        photo = request_data.get("photo", "")
-        location = request_data.get("location", "")
-        phone_number = request_data.get("phone_number", "")
-        social_media_link = request_data.get("social_media_link", "")
-
-        user = User.objects.create_user(
-            **{
-                **validated_data,
-                **{
-                    "first_name": first_name,
-                    "last_name": last_name,
-                    "bio": bio,
-                    "photo": photo,
-                    "location": location,
-                    "phone_number": phone_number,
-                    "social_media_link": social_media_link,
-                },
-            }
-        )
+        user = User.objects.create_user(**validated_data, request_data=request_data)
 
         return user
 
