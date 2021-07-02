@@ -20,9 +20,21 @@ class ActNowUserManager(BaseUserManager):
         email = self.normalize_email(email)
         # Since Users have to login in order to complete OAuth.
         # They will have no permission to see anything in the admin dashboard.
-        extra_fields.setdefault("is_staff", True)
-        user = self.model(email=email, **extra_fields)
+        is_staff = extra_fields.pop("is_staff", True)
+        is_active = extra_fields.pop("is_active", True)
+        is_superuser = extra_fields.pop("is_superuser", False)
+        username = extra_fields.pop("username")
+
+        user = self.model(
+            email=email,
+            username=username,
+            is_active=is_active,
+            is_staff=is_staff,
+            is_superuser=is_superuser,
+        )
+
         user.set_password(password)
+        user.extra_fields = extra_fields
         user.save(using=self._db)
         return user
 

@@ -7,21 +7,13 @@ from .. import models
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = get_user_model()
-        django_get_or_create = ("email",)
+        django_get_or_create = (
+            "email",
+            "username",
+        )
 
     email = factory.Sequence(lambda n: "user{}@example.com".format(n))
-
-
-class UserProfileFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.UserProfile
-
-    first_name = factory.Faker("first_name")
-    last_name = factory.Faker("last_name")
-    location = "Kenya, Nairobi"
-    social_media_link = factory.Faker("url")
-    photo = factory.django.ImageField(width=1024, height=768)
-    user = factory.SubFactory(UserFactory)
+    username = factory.Faker("name")
 
 
 class OrganisationProfileFactory(factory.django.DjangoModelFactory):

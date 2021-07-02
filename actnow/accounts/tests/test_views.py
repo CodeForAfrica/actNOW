@@ -18,7 +18,9 @@ class TestUserRegistrationView(TestCase):
             "password": "RandomPassword#2323#",
         }
         self.url = reverse("accounts-list")
-        user = User.objects.create_superuser(email="test_user@test.org")
+        user = User.objects.create_superuser(
+            email="test_user@test.org", username="test_user"
+        )
         self.application = get_application_model()(user=user)
         self.application.save()
         self.token = Token.objects.get(user=user.id)
@@ -60,7 +62,9 @@ class TestUserRegistrationView(TestCase):
 
     def test_only_an_application_can_register_a_new_user(self):
         # A super user with no application
-        user = User.objects.create_superuser(email="superuser@test.org")
+        user = User.objects.create_superuser(
+            email="superuser@test.org", username="superuser"
+        )
         super_user_token = Token.objects.get(user=user.id)
         HTTP_AUTHORIZATION = f"Token {super_user_token}"
         response = self.client.post(
