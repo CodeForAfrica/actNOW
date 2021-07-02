@@ -16,9 +16,8 @@ class UserSerializer(serializers.ModelSerializer):
 
         request_data = self.context["request"].data.copy()
         # Remove user account data
-        request_data.pop("username")
-        request_data.pop("email")
-        request_data.pop("password")
+        [request_data.pop(f) for f in self.fields]
+
         user = User.objects.create_user(**validated_data, request_data=request_data)
 
         return user
