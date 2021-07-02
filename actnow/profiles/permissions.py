@@ -13,8 +13,3 @@ class IsOrganisationMember(BasePermission):
         if request.method in SAFE_METHODS:
             return True
         return request.user.id in obj.persons.values_list("id", flat=True)
-
-
-class DenyAll(BasePermission):
-    def has_permission(self, request, view):
-        return False
