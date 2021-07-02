@@ -1,8 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from actnow.accounts.models import ActNowUser
-
 from ..models import Petition, Signature
+
+ActNowUser = get_user_model()
 
 
 class PetitionTest(TestCase):
@@ -14,7 +15,7 @@ class PetitionTest(TestCase):
             recipients="City Council",
         )
 
-        self.signatory = ActNowUser.objects.create(
+        self.signatory = ActNowUser.objects.create_user(
             email="test@gmail.com", username="test", password="test2021?"
         )
 

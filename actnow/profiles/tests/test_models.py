@@ -1,26 +1,30 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from .. import models
-from .model_factory import OrganisationProfileFactory, UserFactory, UserProfileFactory
+from .model_factory import OrganisationProfileFactory, UserFactory
+
+User = get_user_model()
 
 
 class UserProfileTest(TestCase):
     def test_create_user_profile(self):
-        UserProfileFactory()
+        # Creating a user account should automatically create a user profile
+        User.objects.create_user(
+            email="root@root.com", password="RandomPassword321", username="root"
+        )
         self.assertEqual(1, models.UserProfile.objects.count())
 
     def test_validate_social_media_link(self):
+        user = UserFactory()
         with self.assertRaises(ValidationError):
-            user_profile = UserProfileFactory(
-                social_media_link="https://invalidurl.com/userp"
+            user_profile = models.UserProfile(
+                user=user,
+                first_name="User1",
+                social_media_link="https://invalidurl.com",
             )
             user_profile.full_clean()
-
-        valid_user_profile = UserProfileFactory(
-            social_media_link="https://twitter.com/userprofile"
-        )
-        self.assertIsNone(valid_user_profile.full_clean())
 
 
 class OrganisationProfileTest(TestCase):

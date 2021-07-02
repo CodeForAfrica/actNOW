@@ -23,10 +23,14 @@ def number_of_organisations_changed(sender, **kwargs):
 @receiver(post_save, sender=User)
 def create_profile(sender, instance=None, created=False, **kwargs):
     if created:
-        data = instance.extra_fields["request_data"]
-        data["user"] = instance.id
-        if not data.get("first_name"):
-            data["first_name"] = instance.username
+        if hasattr(instance, "extra_fields"):
+            data = instance.extra_fields.get("request_data", {})
+            data["user"] = instance.id
+            if not data.get("first_name"):
+                data["first_name"] = instance.username
+        else:
+            data = {"user": instance.id, "first_name": instance.username}
         user_profile_serializer = UserProfileSerializer(data=data)
-        user_profile_serializer.is_valid()
+
+        user_profile_serializer.is_valid(raise_exception=True)
         user_profile_serializer.save()

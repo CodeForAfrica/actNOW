@@ -9,7 +9,7 @@ class ActNowUserTests(TestCase):
 
     def test_create_user(self):
         user = self.User.objects.create_user(
-            email="root@root.com", password="RandomPassword321"
+            email="root@root.com", password="RandomPassword321", username="root"
         )
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
@@ -17,7 +17,7 @@ class ActNowUserTests(TestCase):
 
     def test_create_superuser(self):
         user = self.User.objects.create_superuser(
-            email="root@root.com", password="RandomPassword321"
+            email="root@root.com", password="RandomPassword321", username="root"
         )
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
@@ -31,11 +31,11 @@ class ActNowUserTests(TestCase):
 
     def test_user_email_is_unique(self):
         self.User.objects.create_user(
-            email="user@user.com", password="RandomPassword321"
+            email="user@user.com", username="user", password="RandomPassword321"
         )
         with self.assertRaises(IntegrityError):
             self.User.objects.create_user(
-                email="user@user.com", password="RandomPassword321"
+                email="user@user.com", username="user", password="RandomPassword321"
             )
 
     def test_username_is_unique(self):
