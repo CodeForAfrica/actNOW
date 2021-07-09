@@ -12,6 +12,12 @@ class SignatureSerializer(serializers.ModelSerializer):
         model = Signature
         fields = "__all__"
 
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        if instance.anonymous:
+            rep.pop("signatory")
+        return rep
+
 
 class PetitionSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
