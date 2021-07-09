@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="signature",
             name="anonymous",
-            field=models.BooleanField(default=False, verbose_name="Anonymous"),
+            field=models.BooleanField(default=False, verbose_name="anonymous"),
         ),
     ]
