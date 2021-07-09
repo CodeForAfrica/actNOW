@@ -23,7 +23,9 @@ class ActNowUserManager(BaseUserManager):
         is_staff = extra_fields.pop("is_staff", True)
         is_active = extra_fields.pop("is_active", True)
         is_superuser = extra_fields.pop("is_superuser", False)
-        username = extra_fields.pop("username")
+        username = extra_fields.pop("username", "").strip()
+        if not username:
+            username = None
 
         user = self.model(
             email=email,
@@ -64,6 +66,9 @@ class ActNowUser(AbstractBaseUser, PermissionsMixin, TimestampedModelMixin):
         max_length=150,
         unique=True,
         blank=True,
+        # Required to work when unique=True, blank=True are set
+        # https://docs.djangoproject.com/en/3.2/ref/models/fields/#null
+        null=True,
         help_text=_(
             "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
         ),
