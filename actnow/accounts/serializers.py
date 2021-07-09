@@ -11,12 +11,9 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        if not validated_data["username"]:
-            del validated_data["username"]
-
         request_data = self.context["request"].data.copy()
         # Remove user account data
-        [request_data.pop(f) for f in self.fields]
+        [request_data.pop(f, None) for f in self.fields]
 
         user = User.objects.create_user(**validated_data, request_data=request_data)
 
