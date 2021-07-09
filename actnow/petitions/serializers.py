@@ -6,7 +6,7 @@ from .models import Petition, Signature
 
 
 class SignatureSerializer(serializers.ModelSerializer):
-    signatory = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    signatory = UserSerializer(read_only=True)
 
     class Meta:
         model = Signature

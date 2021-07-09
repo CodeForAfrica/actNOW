@@ -15,3 +15,6 @@ class SignatureView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Signature.objects.filter(signatory=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(signatory=self.request.user)
