@@ -64,7 +64,6 @@ class ActNowUser(AbstractBaseUser, PermissionsMixin, TimestampedModelMixin):
         max_length=150,
         unique=True,
         blank=True,
-        null=True,
         help_text=_(
             "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
         ),
