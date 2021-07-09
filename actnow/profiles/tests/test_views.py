@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.urls.base import reverse
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
@@ -13,7 +14,7 @@ User = get_user_model()
 class TestUserProfileView(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.url = "/profiles/users/"
+        self.url = reverse("user_profile-list")
         self.user = UserFactory()
         token = Token.objects.get(user=self.user)
         self.HTTP_AUTHORIZATION = f"Token {str(token)}"
