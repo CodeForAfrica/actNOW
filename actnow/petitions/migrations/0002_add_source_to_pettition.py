@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("petitions", "0001_initial"),
+        ("petitions", "0002_signature_sign_anonymously"),
     ]
 
     operations = [
