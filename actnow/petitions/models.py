@@ -63,6 +63,7 @@ class Signature(TimestampedModelMixin):
         max_length=255,
         blank=True,
     )
+    anonymous = models.BooleanField(verbose_name=_("anonymous"), default=False)
 
     def __str__(self):
         return f"{self.petition} signed by {self.signatory}"
