@@ -28,8 +28,9 @@ class Petition(TimestampedModelMixin):
         _("problem statement"),
         max_length=1024,
     )
-    issue = models.OneToOneField(
-        "Issue", on_delete=models.DO_NOTHING, blank=True, null=True
+    source = models.ManyToManyField(
+        "source",
+        blank=True,
     )
     number_of_signatures_required = models.PositiveIntegerField(
         _("number of signatures required"),
@@ -75,7 +76,7 @@ class Signature(TimestampedModelMixin):
         unique_together = ("petition", "signatory")
 
 
-class Issue(TimestampedModelMixin):
+class Source(TimestampedModelMixin):
     link = models.URLField(_("link"))
 
     def __str__(self):

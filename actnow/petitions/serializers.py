@@ -2,12 +2,12 @@ from rest_framework import serializers
 
 from actnow.accounts.serializers import UserSerializer
 
-from .models import Issue, Petition, Signature
+from .models import Petition, Signature, Source
 
 
-class IssueSerializer(serializers.ModelSerializer):
+class SourceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Issue
+        model = Source
         fields = "__all__"
 
 
@@ -28,7 +28,7 @@ class SignatureSerializer(serializers.ModelSerializer):
 class PetitionSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     signatures = SignatureSerializer(many=True, read_only=True)
-    issue = IssueSerializer()
+    source = SourceSerializer()
 
     class Meta:
         model = Petition
@@ -44,5 +44,5 @@ class PetitionSerializer(serializers.ModelSerializer):
             "video",
             "owner",
             "signatures",
-            "issue",
+            "source",
         ]
