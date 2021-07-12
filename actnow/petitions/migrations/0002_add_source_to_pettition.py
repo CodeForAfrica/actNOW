@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
-                ("link", models.URLField(verbose_name="link")),
+                ("link", models.URLField(verbose_name="link", unique=True)),
             ],
             options={
                 "get_latest_by": "updated_at",

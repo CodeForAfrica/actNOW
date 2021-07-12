@@ -77,7 +77,7 @@ class Signature(TimestampedModelMixin):
 
 
 class Source(TimestampedModelMixin):
-    link = models.URLField(_("link"))
+    link = models.URLField(_("link"), unique=True)
 
     def __str__(self):
         return self.link
