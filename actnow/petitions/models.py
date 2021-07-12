@@ -28,9 +28,11 @@ class Petition(TimestampedModelMixin):
         _("problem statement"),
         max_length=1024,
     )
-    source = models.ManyToManyField(
+    source = models.ForeignKey(
         "source",
+        on_delete=models.SET_NULL,
         blank=True,
+        null=True,
     )
     number_of_signatures_required = models.PositiveIntegerField(
         _("number of signatures required"),
