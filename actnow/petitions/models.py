@@ -83,3 +83,8 @@ class Source(TimestampedModelMixin):
 
     def __str__(self):
         return self.link
+
+    def clean(self):
+        while self.link.endswith("/"):
+            self.link = self.link[:-1]
+        return super().clean()
