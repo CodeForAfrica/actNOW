@@ -8,4 +8,4 @@ router.register(r"petitions", PetitionView)
 router.register(r"signatures", SignatureView)
 
 urlpatterns = router.urls
-urlpatterns += [path("<int:pk>/follow", follow_petition, name="follow_pettition")]
+urlpatterns += [path("<int:pk>/followers", follow_petition, name="petition_followers")]
