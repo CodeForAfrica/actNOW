@@ -21,6 +21,11 @@ class Petition(TimestampedModelMixin):
         on_delete=models.SET_NULL,
         null=True,
     )
+    followers = models.ManyToManyField(
+        ActNowUser,
+        verbose_name=_("followers"),
+        related_name="petitions",
+    )
     recipients = models.CharField(
         _("recipients"),
         max_length=255,
