@@ -1,3 +1,4 @@
+import hyperlink
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -27,6 +28,12 @@ class Petition(TimestampedModelMixin):
     problem_statement = models.TextField(
         _("problem statement"),
         max_length=1024,
+    )
+    source = models.ForeignKey(
+        "source",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
     number_of_signatures_required = models.PositiveIntegerField(
         _("number of signatures required"),
@@ -70,3 +77,14 @@ class Signature(TimestampedModelMixin):
 
     class Meta:
         unique_together = ("petition", "signatory")
+
+
+class Source(TimestampedModelMixin):
+    link = models.URLField(_("link"), unique=True)
+
+    def __str__(self):
+        return self.link
+
+    def clean(self):
+        self.link = hyperlink.URL.from_text(self.link).normalize().to_text()
+        return super().clean()
