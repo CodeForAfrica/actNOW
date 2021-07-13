@@ -8,6 +8,7 @@ djangorestframework==3.12.4
 environs[django]==9.3.2
 greenlet==1.1.0
 gunicorn[gevent,setproctitle]==20.1.0
+hyperlink==21.0.0
 markdown==3.3.4
 Pillow==8.3.1
 python-dotenv==0.18.0

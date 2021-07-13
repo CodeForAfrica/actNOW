@@ -1,3 +1,4 @@
+import hyperlink
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -85,6 +86,5 @@ class Source(TimestampedModelMixin):
         return self.link
 
     def clean(self):
-        while self.link.endswith("/"):
-            self.link = self.link[:-1]
+        self.link = hyperlink.URL.from_text(self.link).normalize().to_text()
         return super().clean()
