@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("petitions", "0002_signature_sign_anonymously"),
+        ("petitions", "0002_add_source_to_pettition"),
     ]
 
     operations = [
