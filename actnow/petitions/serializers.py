@@ -27,6 +27,7 @@ class SignatureSerializer(serializers.ModelSerializer):
 
 class PetitionSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
+    followers = UserSerializer(read_only=True, many=True)
     signatures = SignatureSerializer(many=True, read_only=True)
     source = SourceSerializer()
 
@@ -45,4 +46,5 @@ class PetitionSerializer(serializers.ModelSerializer):
             "owner",
             "signatures",
             "source",
+            "followers",
         ]
