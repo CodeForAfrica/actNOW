@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "oauth2_provider",
     "phonenumber_field",
     "storages",
+    "django_filters",
     # Local apps
     "actnow.db",
     "actnow.accounts",
@@ -172,6 +173,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
     ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 
