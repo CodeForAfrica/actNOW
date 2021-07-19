@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from actnow.petitions.models import Petition
+from actnow.petitions.models import Petition, Signature
+from actnow.petitions.serializers import PetitionSerializer
 
 User = get_user_model()
 
@@ -13,10 +14,19 @@ def metrics(request):
         {
             "metrics": {
                 "users": {
-                    "total": User.objects.count(),
+                    "count": User.objects.count(),
                 },
                 "petitions": {
-                    "total": Petition.objects.count(),
+                    "count": Petition.objects.count(),
+                },
+                "signatures": {
+                    "count": Signature.objects.count(),
+                },
+                "latestPetitions": {
+                    "count": 5,
+                    "items": PetitionSerializer(
+                        Petition.objects.order_by("-created_at")[:5], many=True
+                    ).data,
                 },
             }
         }
