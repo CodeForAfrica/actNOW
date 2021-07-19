@@ -18,15 +18,15 @@ def metrics(request):
                 },
                 "petitions": {
                     "count": Petition.objects.count(),
-                },
-                "signatures": {
-                    "count": Signature.objects.count(),
-                },
-                "latestPetitions": {
-                    "count": 5,
-                    "items": PetitionSerializer(
-                        Petition.objects.order_by("-created_at")[:5], many=True
-                    ).data,
+                    "signatures": {
+                        "count": Signature.objects.count(),
+                    },
+                    "latestPetitions": {
+                        "count": 5,
+                        "items": PetitionSerializer(
+                            Petition.objects.order_by("-created_at")[:5], many=True
+                        ).data,
+                    },
                 },
             }
         }
