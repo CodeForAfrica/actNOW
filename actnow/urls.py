@@ -20,10 +20,10 @@ from .metrics import metrics
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/", include("actnow.accounts.urls")),
-    path("metrics/", metrics, name="metrics"),
-    path("petitions/", include("actnow.petitions.urls")),
-    path("profiles/", include("actnow.profiles.urls")),
+    path("v1/accounts/", include("actnow.accounts.urls")),
+    path("v1/metrics/", metrics, name="metrics"),
+    path("v1/petitions/", include("actnow.petitions.urls")),
+    path("v1/profiles/", include("actnow.profiles.urls")),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path("", include("actnow.site.urls")),
 ]
