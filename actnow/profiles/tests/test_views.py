@@ -13,7 +13,7 @@ User = get_user_model()
 class TestUserProfileView(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.url = "/profiles/users/"
+        self.url = "/v1/profiles/users/"
         self.user = UserFactory()
         token = Token.objects.get(user=self.user)
         self.HTTP_AUTHORIZATION = f"Token {str(token)}"
