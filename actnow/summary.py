@@ -9,11 +9,11 @@ User = get_user_model()
 
 
 @api_view(["GET"])
-def metrics(request):
+def summary(request):
     return Response(
         {
-            "metrics": {
-                "users": {
+            "summary": {
+                "accounts": {
                     "count": User.objects.count(),
                 },
                 "petitions": {
