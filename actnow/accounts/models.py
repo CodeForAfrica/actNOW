@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -13,20 +15,19 @@ from actnow.db.models import TimestampedModelMixin
 
 
 class ActNowUserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("Users must have an email address")
 
         email = self.normalize_email(email)
-        # Since Users have to login in order to complete OAuth.
-        # They will have no permission to see anything in the admin dashboard.
-        is_staff = extra_fields.pop("is_staff", True)
-        is_active = extra_fields.pop("is_active", True)
-        is_superuser = extra_fields.pop("is_superuser", False)
-        username = extra_fields.pop("username", "").strip()
+        username = extra_fields.get("username", "").strip()
+        # Ensure we have a username
         if not username:
-            username = None
+            username = uuid.uuid4().hex
 
+        is_staff = extra_fields.pop("is_staff")
+        is_active = extra_fields.pop("is_active")
+        is_superuser = extra_fields.pop("is_superuser")
         user = self.model(
             email=email,
             username=username,
@@ -34,11 +35,21 @@ class ActNowUserManager(BaseUserManager):
             is_staff=is_staff,
             is_superuser=is_superuser,
         )
-
         user.set_password(password)
+
+        # Pass on username
+        extra_fields["username"] = username
         user.extra_fields = extra_fields
         user.save(using=self._db)
         return user
+
+    def create_user(self, email, password=None, **extra_fields):
+        # is_staff is required to login in order to complete OAuth.
+        extra_fields["is_staff"] = True
+        extra_fields["is_active"] = True
+        extra_fields["is_superuser"] = False
+
+        return self._create_user(email=email, password=password, **extra_fields)
 
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
@@ -50,7 +61,7 @@ class ActNowUserManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
 
-        return self.create_user(email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class ActNowUser(AbstractBaseUser, PermissionsMixin, TimestampedModelMixin):
