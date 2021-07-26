@@ -66,7 +66,7 @@ class ActNowUserTests(TestCase):
                 username="noemailuser", password="RandomPassword321"
             )
 
-    def test_user_email_is_unique(self):
+    def test_email_is_unique(self):
         self.User.objects.create_user(
             email="user@email.com", username="user1", password="RandomPassword1"
         )
@@ -77,11 +77,11 @@ class ActNowUserTests(TestCase):
 
     def test_username_is_unique(self):
         self.User.objects.create_user(
-            email="user1@gmail.com", username="user", password="RandomPassword1"
+            email="user1@email.com", username="user", password="RandomPassword1"
         )
         with self.assertRaises(IntegrityError):
             self.User.objects.create_user(
-                email="user2@gmail.com",
+                email="user2@email.com",
                 username="user",
                 password="RandomPassword2",
             )
