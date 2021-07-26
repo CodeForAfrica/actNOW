@@ -11,30 +11,53 @@ class ActNowUserTests(TestCase):
 
     def test_create_user(self):
         user = self.User.objects.create_user(
-            email="root@root.com",
+            email="user@email.com",
+            username="user",
             password="RandomPassword321",
-            username="root",
-            # is_superuser must always be set to false False in create_user
+            # is_superuser must always be set to False in create_user
             # regardless of what value was passed in.
             is_superuser=True,
         )
 
         # If username is provided, it must be preserved
-        self.assertIs(user.username, "root")
+        self.assertEqual(user.username, "user")
+        self.assertEqual(user.email, "user@email.com")
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
         self.assertFalse(user.is_superuser)
 
-    def test_create_superuser(self):
-        user = self.User.objects.create_superuser(
-            email="root@root.com", password="RandomPassword321", username="root"
+    def test_create_user_without_username(self):
+        user = self.User.objects.create_user(
+            email="user@email.com", password="RandomPassword321"
         )
 
-        # If no username is provided, uuid4 will be used
+        # If no username was provided, uuid4 must be used to generate a random
+        # username.
         self.assertIsNotNone(user.username)
-        self.assertIs(uuid.UUID(user.username).version, 4)
+        self.assertEqual(uuid.UUID(user.username).version, 4)
+        self.assertFalse(user.is_superuser)
+
+    def test_create_superuser(self):
+        user = self.User.objects.create_superuser(
+            email="root@email.com", username="root", password="RandomPassword321"
+        )
+
+        # If username is provided, it must be preserved
+        self.assertEqual(user.username, "root")
+        self.assertEqual(user.email, "root@email.com")
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
+
+    def test_create_superuser_without_username(self):
+        user = self.User.objects.create_superuser(
+            email="root@email.com", password="RandomPassword321"
+        )
+
+        # If no username was provided, uuid4 must be used to generate a random
+        # username.
+        self.assertIsNotNone(user.username)
+        self.assertEqual(uuid.UUID(user.username).version, 4)
         self.assertTrue(user.is_superuser)
 
     def test_email_is_required(self):
@@ -45,20 +68,20 @@ class ActNowUserTests(TestCase):
 
     def test_user_email_is_unique(self):
         self.User.objects.create_user(
-            email="user@user.com", username="user", password="RandomPassword321"
+            email="user@email.com", username="user1", password="RandomPassword1"
         )
         with self.assertRaises(IntegrityError):
             self.User.objects.create_user(
-                email="user@user.com", username="user", password="RandomPassword321"
+                email="user@email.com", username="user2", password="RandomPassword2"
             )
 
     def test_username_is_unique(self):
         self.User.objects.create_user(
-            username="butcher", email="butcher1@gmail.com", password="RandomPassword321"
+            email="user1@gmail.com", username="user", password="RandomPassword1"
         )
         with self.assertRaises(IntegrityError):
             self.User.objects.create_user(
-                username="butcher",
-                email="butcher2@gmail.com",
-                password="RandomPassword321",
+                email="user2@gmail.com",
+                username="user",
+                password="RandomPassword2",
             )
