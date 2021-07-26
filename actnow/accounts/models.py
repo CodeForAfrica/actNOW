@@ -44,10 +44,6 @@ class ActNowUserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password=None, **extra_fields):
-        if not email:
-            raise ValueError("Users must have an email address")
-
-        email = self.normalize_email(email)
         # is_staff is required to login in order to complete OAuth.
         extra_fields["is_staff"] = True
         extra_fields["is_active"] = True
