@@ -19,6 +19,9 @@ class PetitionView(viewsets.ModelViewSet):
     serializer_class = PetitionSerializer
     filterset_fields = ["owner", "followers"]
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class SignatureView(viewsets.ModelViewSet):
     queryset = Signature.objects.all()
