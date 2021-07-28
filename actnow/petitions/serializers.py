@@ -28,7 +28,7 @@ class SignatureSerializer(serializers.ModelSerializer):
 class PetitionSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     followers = UserSerializer(read_only=True, many=True)
-    signatures = SignatureSerializer(many=True, read_only=True)
+    signatures = SignatureSerializer(read_only=True, many=True)
     source = SourceSerializer()
 
     class Meta:
@@ -48,3 +48,10 @@ class PetitionSerializer(serializers.ModelSerializer):
             "source",
             "followers",
         ]
+
+    def create(self, validated_data):
+        source_validated_data = validated_data.pop("source")
+        source = Source.objects.create(**source_validated_data)
+        instance = Petition.objects.create(source=source, **validated_data)
+
+        return instance
