@@ -54,7 +54,7 @@ class TestPetitionView(TestCase):
         self.assertEqual(1, Petition.objects.count())
 
     def test_list(self):
-        unauthenticated_response = self.client.get(self.url, self.data, format="json")
+        unauthenticated_response = self.client.get(self.url)
         self.assertEqual(unauthenticated_response.status_code, 200)
         authenticated_response = self.client.get(
             self.url,
