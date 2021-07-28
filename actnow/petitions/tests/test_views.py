@@ -13,7 +13,7 @@ from actnow.petitions.models import Petition
 User = get_user_model()
 
 
-class TestProfileView(TestCase):
+class TestPetitionView(TestCase):
     def setUp(self):
         user_data = {
             "email": "test_user@email.com",
