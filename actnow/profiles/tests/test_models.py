@@ -27,13 +27,13 @@ class UserProfileTest(TestCase):
             user_profile.full_clean()
 
 
-class OrganisationProfileTest(TestCase):
+class OrganisationProfileTestCase(TestCase):
     def test_create_organisation_profile(self):
         OrganisationProfileFactory()
         self.assertEqual(1, models.OrganisationProfile.objects.count())
 
-    def test_organisation_can_not_have_more_than_2_people(self):
+    def test_organisation_can_not_have_more_than_2_owners(self):
         org = OrganisationProfileFactory()
         with self.assertRaises(ValidationError):
             for _ in range(3):
-                org.persons.add(UserFactory())
+                org.owners.add(UserFactory())
