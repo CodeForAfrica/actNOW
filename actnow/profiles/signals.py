@@ -9,28 +9,28 @@ from .serializers import UserProfileSerializer
 User = get_user_model()
 
 
-@receiver(m2m_changed, sender=OrganisationProfile.persons.through)
-def number_of_organisations_changed(sender, **kwargs):
+@receiver(m2m_changed, sender=OrganisationProfile.owners.through)
+def validate_number_of_organisations_members(sender, **kwargs):
     if kwargs["action"] == "post_add":
         if sender.objects.count() > 2:
-            raise ValidationError("Can only have two people in an organisation.")
+            raise ValidationError("An organisation can have two owners only.")
 
     if kwargs["action"] == "post_remove":
         if sender.objects.count() < 1:
-            raise ValidationError("An Organisation must have at least one person.")
+            raise ValidationError("An Organisation must have at least one owner.")
 
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance=None, created=False, **kwargs):
     if created:
+        first_name = instance.username
         if hasattr(instance, "extra_fields"):
             data = instance.extra_fields.get("request_data", {})
-            data["user"] = instance.id
             if not data.get("first_name"):
-                data["first_name"] = instance.username
-        else:
-            data = {"user": instance.id, "first_name": instance.username}
+                first_name = instance.username
+
+        data = {"first_name": first_name}
         user_profile_serializer = UserProfileSerializer(data=data)
 
         user_profile_serializer.is_valid(raise_exception=True)
-        user_profile_serializer.save()
+        user_profile_serializer.save(user=instance)
