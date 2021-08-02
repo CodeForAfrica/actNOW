@@ -11,7 +11,7 @@ User = get_user_model()
 
 
 class Profile(TimestampedModelMixin):
-    bio = models.TextField(_("about me"), max_length=255, blank=True)
+    bio = models.TextField(_("bio"), max_length=255, blank=True)
     photo = models.ImageField(_("photo"), blank=True)
     location = models.TextField(_("location"), max_length=255, blank=True)
     phone_number = PhoneNumberField(_("phone number"), blank=True)
