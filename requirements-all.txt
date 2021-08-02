@@ -1,4 +1,4 @@
-boto3==1.18.8
+boto3==1.18.10
 django-filter==2.4.0
 django-oauth-toolkit==1.5.0
 django-phonenumber-field[phonenumberslite]==5.2.0
