@@ -1,6 +1,6 @@
 -r requirements-all.txt
 black==21.7b0
-build==0.6.0
+build==0.6.0.post1
 factory-boy==3.2.0
 flake8==3.9.2
 isort==5.9.3
