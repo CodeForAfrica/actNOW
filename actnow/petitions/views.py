@@ -10,6 +10,8 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from actnow.profiles.models import OrganisationProfile, Profile, UserProfile
+
 from .models import Petition, Signature
 from .serializers import PetitionSerializer, SignatureSerializer
 
@@ -20,7 +22,15 @@ class PetitionView(viewsets.ModelViewSet):
     filterset_fields = ["owner", "followers"]
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        organisation = self.request.GET.get("organisation")
+        if organisation:
+            owner = OrganisationProfile.objects.get(pk=organisation)
+            # TODO(kilemensi): Check if self.request.user is one of organisation owners
+        else:
+            user_profile = UserProfile.objects.get(user=self.request.user)
+            owner = Profile.objects.get(user_profile=user_profile)
+
+        serializer.save(owner=owner)
 
 
 class SignatureView(viewsets.ModelViewSet):
@@ -28,7 +38,13 @@ class SignatureView(viewsets.ModelViewSet):
     serializer_class = SignatureSerializer
 
     def get_queryset(self):
-        return Signature.objects.filter(signatory=self.request.user)
+        signatory = self.request.GET.get("signatory")
+        if signatory:
+            # TODO(kilemensi): Check if signatory is user_profile
+            #                  or organisation profile
+            return Signature.objects.filter(signatory=signatory)
+
+        return Signature.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(signatory=self.request.user)
