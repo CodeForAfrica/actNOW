@@ -25,6 +25,13 @@ class OrganisationProfileView(ModelViewSet):
     serializer_class = OrganisationProfileSerializer
     permission_classes = [IsAuthenticated, IsOrganisationOwnerOrReadOnly]
 
+    def perform_create(self, serializer):
+        serializer.save(
+            owners=[
+                self.request.user,
+            ]
+        )
+
 
 class UserProfileView(
     mixins.RetrieveModelMixin,
