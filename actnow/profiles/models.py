@@ -34,6 +34,13 @@ class OrganisationProfile(ProfileMixin):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        created = self._state.adding
+        super().save(*args, **kwargs)
+        if created:
+            profile = Profile(organisation_profile=self)
+            profile.save()
+
 
 class UserProfile(ProfileMixin):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -46,6 +53,13 @@ class UserProfile(ProfileMixin):
 
     def __str__(self):
         return self.name or " ".join(filter(None, (self.first_name, self.last_name)))
+
+    def save(self, *args, **kwargs):
+        created = self._state.adding
+        super().save(*args, **kwargs)
+        if created:
+            profile = Profile(user_profile=self)
+            profile.save()
 
 
 NUM_NONNULLS_SQL = (
@@ -64,6 +78,12 @@ class Profile(TimestampedModelMixin):
     user_profile = models.OneToOneField(
         UserProfile, on_delete=models.CASCADE, related_name="+", blank=True, null=True
     )
+
+    def __str__(self):
+        if self.organisation_profile:
+            return str(self.organisation_profile)
+
+        return str(self.user_profile)
 
     class Meta:
         constraints = [
