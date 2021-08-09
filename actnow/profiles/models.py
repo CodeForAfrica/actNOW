@@ -25,7 +25,7 @@ class ProfileMixin(TimestampedModelMixin):
 
 
 class OrganisationProfile(ProfileMixin):
-    owners = models.ManyToManyField(User)
+    owners = models.ManyToManyField(User, related_name="organisations")
     name = models.CharField(_("name"), max_length=255)
     email = models.EmailField(_("email address"), unique=True)
     # For organisation profile, we do need a unique website/domain
