@@ -2,8 +2,8 @@ import hyperlink
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from actnow.accounts.models import ActNowUser
 from actnow.db.models import TimestampedModelMixin
+from actnow.profiles.models import Profile
 
 
 class Petition(TimestampedModelMixin):
@@ -16,13 +16,13 @@ class Petition(TimestampedModelMixin):
         max_length=1024,
     )
     owner = models.ForeignKey(
-        ActNowUser,
+        Profile,
         verbose_name=_("owner"),
         on_delete=models.SET_NULL,
         null=True,
     )
     followers = models.ManyToManyField(
-        ActNowUser,
+        Profile,
         verbose_name=_("followers"),
         related_name="petitions",
     )
@@ -54,7 +54,7 @@ class Petition(TimestampedModelMixin):
     )
 
     def __str__(self):
-        return self.title
+        return f"{self.title} by {self.owner}"
 
 
 class Signature(TimestampedModelMixin):
@@ -65,7 +65,7 @@ class Signature(TimestampedModelMixin):
         verbose_name=_("petition"),
     )
     signatory = models.ForeignKey(
-        ActNowUser,
+        Profile,
         on_delete=models.SET_NULL,
         verbose_name=_("signatory"),
         null=True,
