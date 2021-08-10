@@ -8,8 +8,8 @@ class IsOwnerOrReadOnly(BasePermission):
         return bool(obj.user.id == request.user.id)
 
 
-class IsOrganisationMember(BasePermission):
+class IsOrganisationOwnerOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
             return True
-        return request.user.id in obj.persons.values_list("id", flat=True)
+        return request.user.id in obj.owners.values_list("id", flat=True)

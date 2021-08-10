@@ -21,7 +21,7 @@ class OrganisationProfileFactory(factory.django.DjangoModelFactory):
         model = models.OrganisationProfile
 
     name = factory.Faker("name")
-    description = factory.Faker("text")
+    bio = factory.Faker("text")
     email = factory.Faker("email")
     photo = factory.django.ImageField(width=1024, height=768)
     website = factory.Faker("url")
