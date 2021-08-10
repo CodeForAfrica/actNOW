@@ -5,7 +5,7 @@ django-phonenumber-field[phonenumberslite]==5.2.0
 django-storages==1.11.1
 Django[argon2,bcrypt]==3.2.5
 djangorestframework==3.12.4
-environs[django]==9.3.2
+environs[django]==9.3.3
 greenlet==1.1.0
 gunicorn[gevent,setproctitle]==20.1.0
 hyperlink==21.0.0
