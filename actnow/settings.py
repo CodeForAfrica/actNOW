@@ -194,11 +194,6 @@ OAUTH2_PROVIDER = {
     },
 }
 
-print("\n\n\n\n")
-print(OAUTH2_PROVIDER)
-print("\n\n\n\n")
-
-
 # Django Oauth Toolkit Application model
 # https://django-oauth-toolkit.readthedocs.io/en/latest/settings.html#application-model
 
