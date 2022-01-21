@@ -52,6 +52,7 @@ jobs:
         run: |
           echo "ACTNOW_SECRET_KEY=${{ secrets.ACTNOW_SECRET_KEY }}" >> .env
           echo "ACTNOW_SENTRY_DSN=${{ secrets.ACTNOW_SENTRY_DSN }}" >> .env
+          echo "ACTNOW_OIDC_RSA_PRIVATE_KEY='${{ secrets.ACTNOW_OIDC_RSA_PRIVATE_KEY }}'" >> .env
           make runci
 
       - name: Run Lint
@@ -69,5 +70,3 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         # in minutes
         timeout-minutes: 15
-        with:
-          limit-access-to-actor: true
