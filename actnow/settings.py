@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "actnow.site",
 ]
 
-LOGIN_URL = "/accounts/login/"
+LOGIN_URL = "/admin/login/"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
