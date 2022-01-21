@@ -62,3 +62,12 @@ jobs:
 
       - name: Stop app
         run: make stop
+
+      - uses: actions/checkout@v2
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        # in minutes
+        timeout-minutes: 15
+        with:
+          limit-access-to-actor: true
