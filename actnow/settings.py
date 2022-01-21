@@ -184,7 +184,7 @@ REST_FRAMEWORK = {
 # https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/rest-framework.html
 
 OAUTH2_PROVIDER = {
-    "OAUTH2_VALIDATOR_CLASS": "accounts.oauth_validators.OAuth2Validator",
+    "OAUTH2_VALIDATOR_CLASS": "actnow.accounts.oauth_validators.OAuth2Validator",
     "OIDC_ENABLED": True,
     "OIDC_RSA_PRIVATE_KEY": env.str("ACTNOW_OIDC_RSA_PRIVATE_KEY"),
     "SCOPES": {
