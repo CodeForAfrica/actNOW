@@ -2,7 +2,7 @@ version: "3"
 
 services:
   db:
-    image: postgres:9.6
+    image: postgres:13.3
     restart: unless-stopped
     volumes:
       - db-data:/var/lib/postgresql/data/

@@ -184,14 +184,15 @@ REST_FRAMEWORK = {
 # https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/rest-framework.html
 
 OAUTH2_PROVIDER = {
-    # this is the list of available scopes
+    "OAUTH2_VALIDATOR_CLASS": "actnow.accounts.oauth_validators.OAuth2Validator",
+    "OIDC_ENABLED": True,
+    "OIDC_RSA_PRIVATE_KEY": env.str("ACTNOW_OIDC_RSA_PRIVATE_KEY"),
     "SCOPES": {
-        "read": "Read scope",
-        "write": "Write scope",
-        "groups": "Access to your groups",
-    }
+        "openid": "Returns the sub claim, which uniquely identifies the user",
+        "profile": "Returns claims that represent basic profile information",
+        "email": "Returns the email claim",
+    },
 }
-
 
 # Django Oauth Toolkit Application model
 # https://django-oauth-toolkit.readthedocs.io/en/latest/settings.html#application-model
