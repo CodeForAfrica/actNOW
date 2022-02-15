@@ -34,6 +34,7 @@ class PetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Petition
         fields = [
+            "id",
             "created_at",
             "updated_at",
             "title",
