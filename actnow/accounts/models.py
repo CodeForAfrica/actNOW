@@ -5,11 +5,19 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+
+# from django.conf import settings
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from oauth2_provider.models import AbstractApplication
+from oauth2_provider.models import (
+    AbstractAccessToken,
+    AbstractApplication,
+    AbstractGrant,
+    AbstractIDToken,
+    AbstractRefreshToken,
+)
 
 from actnow.db.models import TimestampedModelMixin
 
@@ -121,3 +129,76 @@ class ActNowApplication(AbstractApplication):
 
     class Meta:
         verbose_name = "Application"
+
+
+# While we only need to override AccessToken and RefreshToken to increase
+# token field length to support JWT, there are a lot of issues around
+# swapping DOT models and the most recommended solutions appear to just
+# override all
+# see: https://github.com/jazzband/django-oauth-toolkit/issues/634
+
+
+class Grant(AbstractGrant):
+    application = models.ForeignKey(
+        ActNowApplication,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+
+
+class AccessToken(AbstractAccessToken):
+    source_refresh_token = models.OneToOneField(
+        # unique=True implied by the OneToOneField
+        "RefreshToken",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="refreshed_access_token",
+    )
+    token = models.CharField(
+        max_length=2048,
+        unique=True,
+    )
+    id_token = models.OneToOneField(
+        "IDToken",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="access_token",
+    )
+    application = models.ForeignKey(
+        ActNowApplication,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+
+
+class RefreshToken(AbstractRefreshToken):
+    token = models.CharField(
+        max_length=2048,
+        unique=True,
+    )
+    application = models.ForeignKey(
+        ActNowApplication,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+    access_token = models.OneToOneField(
+        "AccessToken",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="refresh_token",
+    )
+
+
+class IDToken(AbstractIDToken):
+    application = models.ForeignKey(
+        ActNowApplication,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
