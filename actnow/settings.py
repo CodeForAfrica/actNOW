@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third party apps
+    "oauth2_provider",
     "rest_framework",
     "rest_framework.authtoken",
-    "oauth2_provider",
     "phonenumber_field",
     "storages",
     "django_filters",
@@ -180,10 +180,11 @@ REST_FRAMEWORK = {
 }
 
 
-# Django Oauth Toolkit Application model
-# https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/rest-framework.html
+# Django Oauth Toolkit settings
+# https://django-oauth-toolkit.readthedocs.io/en/latest/settings.html#settings
 
 OAUTH2_PROVIDER = {
+    "ACCESS_TOKEN_GENERATOR": "actnow.accounts.tokens.signed_token_generator",
     "OAUTH2_VALIDATOR_CLASS": "actnow.accounts.oauth_validators.OAuth2Validator",
     "OIDC_ENABLED": True,
     "OIDC_RSA_PRIVATE_KEY": env.str("ACTNOW_OIDC_RSA_PRIVATE_KEY"),
@@ -194,11 +195,16 @@ OAUTH2_PROVIDER = {
     },
 }
 
+
 # Django Oauth Toolkit Application model
 # https://django-oauth-toolkit.readthedocs.io/en/latest/settings.html#application-model
 
 OAUTH2_PROVIDER_APPLICATION_MODEL = "accounts.ActNowApplication"
-
+OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = "accounts.AccessToken"
+OAUTH2_PROVIDER_GRANT_MODEL = "accounts.Grant"
+OAUTH2_PROVIDER_GRANT_MODEL = "accounts.Grant"
+OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = "accounts.RefreshToken"
+OAUTH2_PROVIDER_ID_TOKEN_MODEL = "accounts.IDToken"
 
 # AWS S3 Storage
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
