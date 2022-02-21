@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from .summary import summary
+from .token import TokenView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -24,6 +25,7 @@ urlpatterns = [
     path("v1/", summary, name="summary"),
     path("v1/petitions/", include("actnow.petitions.urls")),
     path("v1/profiles/", include("actnow.profiles.urls")),
+    path("o/token/", TokenView.as_view(), name="token"),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path("", include("actnow.site.urls")),
 ]
