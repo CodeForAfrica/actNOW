@@ -2,9 +2,11 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls.base import reverse
 from django.utils import timezone
-from oauth2_provider.models import AccessToken, get_application_model
+from oauth2_provider.models import AbstractApplication, get_application_model
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
+
+from actnow.accounts.models import AccessToken
 
 User = get_user_model()
 
@@ -21,7 +23,14 @@ class TestUserRegistrationView(TestCase):
         user = User.objects.create_superuser(
             email="test_user@test.org", username="test_user"
         )
-        self.application = get_application_model()(user=user)
+        self.application = get_application_model()(
+            client_id="TEST_CLIENT_ID",
+            user=user,
+            client_type=AbstractApplication.CLIENT_CONFIDENTIAL,
+            authorization_grant_type=AbstractApplication.GRANT_PASSWORD,
+            client_secret="TEST_CLIENT_SECRET",
+            name="Test",
+        )
         self.application.save()
         self.token = Token.objects.get(user=user.id)
         self.HTTP_AUTHORIZATION = f"Token {self.token}"
@@ -131,17 +140,17 @@ class TestUserRegistrationView(TestCase):
         expires = timezone.now() + timezone.timedelta(seconds=100)
         oauth_access_token = AccessToken(token=self.token, expires=expires, user=user)
         oauth_access_token.save()
-        # delete account using OAuth token
-        response = self.client.delete(
-            f"{self.url}{user.id}/",
-            HTTP_AUTHORIZATION="Bearer " + str(oauth_access_token.token),
+        self.client.credentials(
+            HTTP_AUTHORIZATION="Bearer " + str(oauth_access_token.token)
         )
+        # delete account using OAuth token
+        response = self.client.delete(f"{self.url}{user.id}/")
         self.assertEqual(204, response.status_code)
         # Ensure account has been deleted
         response = self.client.get(
             f"{self.url}{user.id}/", HTTP_AUTHORIZATION=self.HTTP_AUTHORIZATION
         )
-        self.assertEqual(404, response.status_code)
+        self.assertEqual(401, response.status_code)
 
         # ensure once an account is deleted, all tokens are revoked.
         response = self.client.get(
