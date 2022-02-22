@@ -186,7 +186,7 @@ REST_FRAMEWORK = {
 OAUTH2_PROVIDER = {
     "ACCESS_TOKEN_GENERATOR": "actnow.accounts.tokens.signed_token_generator",
     "OAUTH2_VALIDATOR_CLASS": "actnow.accounts.oauth_validators.OAuth2Validator",
-    "OIDC_ENABLED": True,
+    "OIDC_ENABLED": False,
     "OIDC_RSA_PRIVATE_KEY": env.str("ACTNOW_OIDC_RSA_PRIVATE_KEY"),
     "SCOPES": {
         "openid": "Returns the sub claim, which uniquely identifies the user",
