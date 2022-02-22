@@ -6,7 +6,7 @@ from actnow.accounts.serializers import UserSerializer
 from .permissions import AllowAppicationOwnerOnly, IsNotDeleted, IsOwnerOrReadOnly
 
 
-class UsersView(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_queryset(self):
