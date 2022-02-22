@@ -12,7 +12,9 @@ class TokenView(OAuth2TokenView):
         token = get_access_token_model().objects.get(token=access_token)
         body["user"] = {
             "id": token.user.id,
-            "profile_id": token.user.userprofile.id,
+            "profile": {
+                "id": token.user.userprofile.id,
+            },
             "email": token.user.email,
             "username": token.user.username,
         }
