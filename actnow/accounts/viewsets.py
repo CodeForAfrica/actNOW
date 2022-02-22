@@ -26,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
         instance.is_deleted = True
         instance.is_active = False
         # Revoke all OAuth tokens
-        for access_token in instance.oauth2_provider_accesstoken.all():
+        for access_token in instance.accounts_accesstoken.all():
             access_token.revoke()
 
         # Delete the DRF auth token
