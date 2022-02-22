@@ -1,12 +1,15 @@
 from django.conf import settings
-from oauthlib.oauth2.rfc6749.tokens import (
-    signed_token_generator as default_signed_token_generator,
-)
-
-signed_token_generator_handler = default_signed_token_generator(
-    settings.OAUTH2_PROVIDER["OIDC_RSA_PRIVATE_KEY"]
-)
+from oauthlib import common
 
 
 def signed_token_generator(request, **kwargs):
-    return signed_token_generator_handler(request, **kwargs)
+    request.claims = {
+        "aud": request.client.client_id,
+        "iss": "actNOW",
+        "sub": request.user.id,
+        "scope": " ".join(request.scopes),
+    }
+    request.claims.update(kwargs)
+    return common.generate_signed_token(
+        settings.OAUTH2_PROVIDER["OIDC_RSA_PRIVATE_KEY"], request
+    )
