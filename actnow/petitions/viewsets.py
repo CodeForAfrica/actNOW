@@ -19,7 +19,7 @@ def get_profile(request):
 class PetitionViewSet(viewsets.ModelViewSet):
     queryset = Petition.objects.all()
     serializer_class = PetitionSerializer
-    filterset_fields = ["owner", "followers", "signatures"]
+    filterset_fields = ["owner", "followers", "signatures__signatory__user_profile"]
 
     def perform_create(self, serializer):
         owner = get_profile(self.request)
