@@ -2,6 +2,7 @@ from rest_framework import viewsets
 
 from actnow.profiles.models import OrganisationProfile, Profile, UserProfile
 
+from .filters import PetitionFilter
 from .models import Petition, Signature
 from .serializers import PetitionSerializer, SignatureSerializer
 
@@ -19,7 +20,7 @@ def get_profile(request):
 class PetitionViewSet(viewsets.ModelViewSet):
     queryset = Petition.objects.all()
     serializer_class = PetitionSerializer
-    filterset_fields = ["owner", "followers", "signatures__signatory__user_profile"]
+    filterset_class = PetitionFilter
 
     def perform_create(self, serializer):
         owner = get_profile(self.request)
