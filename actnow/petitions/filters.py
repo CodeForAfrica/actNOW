@@ -4,8 +4,10 @@ from .models import Petition
 
 
 class PetitionFilter(filters.FilterSet):
-    user_profile = filters.CharFilter(field_name="signatures__signatory__user_profile")
-    organisation_profile = filters.CharFilter(
+    user_profile = filters.NumberFilter(
+        field_name="signatures__signatory__user_profile"
+    )
+    organisation_profile = filters.NumberFilter(
         field_name="signatures__signatory__organisation_profile"
     )
 
