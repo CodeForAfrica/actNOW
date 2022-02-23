@@ -4,13 +4,18 @@ from .models import Petition
 
 
 class PetitionFilter(filters.FilterSet):
-    user_profile = filters.NumberFilter(
+    individual_signatories = filters.NumberFilter(
         field_name="signatures__signatory__user_profile"
     )
-    organisation_profile = filters.NumberFilter(
+    organisation_signatories = filters.NumberFilter(
         field_name="signatures__signatory__organisation_profile"
     )
 
     class Meta:
         model = Petition
-        fields = ["owner", "followers", "user_profile", "organisation_profile"]
+        fields = [
+            "owner",
+            "followers",
+            "individual_signatories",
+            "organisation_signatories",
+        ]
