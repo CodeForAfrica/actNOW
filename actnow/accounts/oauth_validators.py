@@ -1,5 +1,5 @@
-from oauth2_provider.oauth2_validators import OAuth2Validator as BaseOAuth2Validator
+from oauth2_provider import oauth2_validators
 
 
-class OAuth2Validator(BaseOAuth2Validator):
+class OAuth2Validator(oauth2_validators.OAuth2Validator):
     pass

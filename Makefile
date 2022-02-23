@@ -23,5 +23,8 @@ lint:
 test:
 	$(COMPOSE) exec -T app python manage.py test
 
+testtarget:
+	$(COMPOSE) exec -T app python manage.py test ${TESTTARGET}
+
 stop:
 	$(COMPOSE) down

@@ -6,7 +6,7 @@ from actnow.accounts.serializers import UserSerializer
 from .permissions import AllowAppicationOwnerOnly, IsNotDeleted, IsOwnerOrReadOnly
 
 
-class UsersView(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_queryset(self):
@@ -26,7 +26,7 @@ class UsersView(viewsets.ModelViewSet):
         instance.is_deleted = True
         instance.is_active = False
         # Revoke all OAuth tokens
-        for access_token in instance.oauth2_provider_accesstoken.all():
+        for access_token in instance.accounts_accesstoken.all():
             access_token.revoke()
 
         # Delete the DRF auth token
