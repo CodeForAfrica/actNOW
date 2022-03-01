@@ -141,7 +141,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "actnow.social.serializers.UserDetailsSerializer",
+}
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
