@@ -46,6 +46,13 @@ INSTALLED_APPS = [
     "oauth2_provider",
     "rest_framework",
     "rest_framework.authtoken",
+    "dj_rest_auth",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "dj_rest_auth.registration",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     "phonenumber_field",
     "storages",
     "django_filters",
@@ -134,7 +141,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "actnow.social.serializers.UserDetailsSerializer",
+}
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -172,6 +181,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_PERMISSION_CLASSES": [
@@ -179,6 +189,8 @@ REST_FRAMEWORK = {
     ],
 }
 
+SITE_ID = 1
+REST_USE_JWT = True
 
 # Django Oauth Toolkit settings
 # https://django-oauth-toolkit.readthedocs.io/en/latest/settings.html#settings
