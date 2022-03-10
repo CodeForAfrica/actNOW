@@ -1,4 +1,4 @@
-boto3==1.21.15
+boto3==1.21.16
 dj-rest-auth==2.2.3
 django-allauth==0.49.0
 django-filter==21.1
