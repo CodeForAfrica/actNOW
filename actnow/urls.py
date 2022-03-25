@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from .health import health_check
 from .summary import summary
 from .token import TokenView
 
@@ -28,5 +29,6 @@ urlpatterns = [
     path("o/token/", TokenView.as_view(), name="token"),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path("auth/", include("actnow.social.urls")),
+    path("health/", health_check, name="health_check"),
     path("", include("actnow.site.urls")),
 ]
