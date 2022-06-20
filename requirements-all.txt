@@ -2,7 +2,7 @@ boto3==1.24.11
 dj-rest-auth[with_social]==2.2.4
 django-filter==21.1
 django-oauth-toolkit==1.7.1
-django-phonenumber-field[phonenumberslite]==6.2.0
+django-phonenumber-field[phonenumberslite]==6.3.0
 django-storages==1.12.3
 Django[argon2,bcrypt]==3.2.12
 djangorestframework==3.13.1
