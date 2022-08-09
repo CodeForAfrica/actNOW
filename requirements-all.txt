@@ -14,5 +14,5 @@ hyperlink==21.0.0
 markdown==3.4.1
 oauthlib[signedtoken]==3.2.0
 Pillow==9.2.0
-sentry-sdk==1.9.0
+sentry-sdk==1.9.2
 setuptools_scm[toml]==7.0.5
