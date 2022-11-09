@@ -8,7 +8,7 @@ Django[argon2,bcrypt]==3.2.14
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 environs[django]==9.5.0
-greenlet==2.0.0
+greenlet==2.0.1
 gunicorn[gevent,setproctitle]==20.1.0
 hyperlink==21.0.0
 markdown==3.4.1
