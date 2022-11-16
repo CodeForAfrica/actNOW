@@ -9,4 +9,4 @@ mypy-extensions==0.4.3
 pre-commit==2.20.0
 psycopg2-binary==2.9.5
 setuptools==65.5.1
-wheel==0.38.2
+wheel==0.38.4
