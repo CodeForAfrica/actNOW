@@ -20,7 +20,6 @@ def unlink_profiles(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("profiles", "0010_profile"),
     ]

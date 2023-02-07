@@ -40,7 +40,6 @@ class UserProfileView(
     mixins.ListModelMixin,
     GenericViewSet,
 ):
-
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
