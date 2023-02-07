@@ -7,7 +7,6 @@ import actnow.profiles.validators
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("profiles", "0005_alter_organisationprofile_persons"),
     ]

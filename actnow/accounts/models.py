@@ -73,7 +73,6 @@ class ActNowUserManager(BaseUserManager):
 
 
 class ActNowUser(AbstractBaseUser, PermissionsMixin, TimestampedModelMixin):
-
     username_validator = UnicodeUsernameValidator()
 
     email = models.EmailField(

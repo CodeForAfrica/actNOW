@@ -7,7 +7,6 @@ import actnow.profiles.validators
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("profiles", "0006_auto_20210701_1251"),
     ]
