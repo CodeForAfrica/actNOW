@@ -1,4 +1,4 @@
-boto3==1.26.154
+boto3==1.26.155
 dj-rest-auth[with_social]==2.2.7
 django-filter==23.2
 django-oauth-toolkit==1.7.1
