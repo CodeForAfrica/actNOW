@@ -7,7 +7,7 @@ django-storages==1.14.2
 Django[argon2,bcrypt]==3.2.14
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
-environs[django]==10.3.0
+environs[django]==11.0.0
 greenlet==3.0.3
 gunicorn[gevent,setproctitle]==21.2.0
 hyperlink==21.0.0
