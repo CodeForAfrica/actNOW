@@ -15,4 +15,4 @@ markdown==3.6
 oauthlib[signedtoken]==3.2.2
 Pillow==9.5.0
 sentry-sdk==2.1.1
-setuptools_scm[toml]==8.0.4
+setuptools_scm[toml]==8.1.0
