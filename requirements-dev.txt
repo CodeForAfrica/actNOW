@@ -1,5 +1,5 @@
 -r requirements-all.txt
-black==24.3.0
+black==24.4.2
 build==1.2.1
 factory-boy==3.3.0
 flake8==5.0.4
