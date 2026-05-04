@@ -11,7 +11,7 @@ environs[django]==11.0.0
 greenlet==3.0.3
 gunicorn[gevent,setproctitle]==23.0.0
 hyperlink==21.0.0
-markdown==3.7
+markdown==3.10.2
 oauthlib[signedtoken]==3.2.2
 Pillow==10.4.0
 sentry-sdk==2.13.0
