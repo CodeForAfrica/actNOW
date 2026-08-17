@@ -9,7 +9,7 @@ repos:
           args: [--markdown-linebreak-ext=md]
 
   - repo: https://github.com/PyCQA/isort
-    rev: 9.0.0b2
+    rev: 9.0.0b5
     hooks:
       - id: isort
 
@@ -27,7 +27,7 @@ repos:
 
 
   -   repo: https://github.com/pre-commit/mirrors-mypy
-      rev: v2.3.0
+      rev: v2.3.1
       hooks:
         - id: mypy
           args: [--ignore-missing-imports]
